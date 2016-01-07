@@ -1,0 +1,42 @@
+* {
+	background-color: #d2c9c0;
+}
+
+h1 {
+	color: #483934;
+}
+
+.button {
+	background-color: #b18976;
+	color: #47449;
+	outline: none;
+}
+
+li {
+	border: 1px groove #462c1d;
+	background: #c9c2aa; 
+	padding: 5x 10px;
+	color: #462c1d;
+	margin: 1px;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+span {
+	background: #c9c2aa; 
+}
+
+input[type=text] {
+	width: 125px;
+	transition: ease-in-out, width .35s ease-in-out;
+
+}
+
+input[type=text]:focus {
+	width: 250px;
+	outline: none;
+}
