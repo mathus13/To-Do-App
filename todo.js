@@ -1,35 +1,39 @@
-// item html : 		 <li><input type="checkbox" /> <span> Item One </span></li>
+var todoArray = [];
+var arrayLen = todoArray.length;
+var todoCounter = 0;
 
-function addNewItem(list, itemText) {
-	var listItem = document.createElement("li");
-	listItem.innerText = itemText;
-
-	list.appendChild(listItem);
+function todo(todoText, priority) {
+	this.todoText = todoText;
+	this.priority = priority;
 };
-
-// var addButton = document.getElementById("addButton");
 
 var inputText = document.getElementById("inputText");
 
-// inputText.focus();
 
-inputText.onkeyup = function(event) {
+inputText.onkeyup = function(event){
 
-	// proceed on key press ENTER
-	if (event.which == 13) {	
-
+	if(itemText =="" || itemText == " "){
+	return false;
+	} else {
+		if(event.which == 13) {
 		var itemText = inputText.value;
+		
+		alert("before: "+todoCounter);
+		todoCounter = todoCounter+1;
 
-		if(!itemText || itemText == "" || itemText == " "){
-		return false;
+		window['todo'+todoCounter] = new todo(itemText, false);
+
+
+		console.log(todoCounter);
+		alert(todoCounter);
+
+
+		if ('undefined' !== todo1) {
+		console.log(todo1.todoText);
+		}
+
+
+		}
 	}
 
-	addNewItem(document.getElementById("todoList"), itemText);
-	
-	// clears input 
-
-	document.getElementById("inputText").blur();
-	document.getElementById("inputText").value = "";
-	
-	}
-};
+}
