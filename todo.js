@@ -1,39 +1,29 @@
-var todoArray = [];
-var arrayLen = todoArray.length;
-var todoCounter = 0;
-
-function todo(todoText, priority) {
-	this.todoText = todoText;
-	this.priority = priority;
-};
-
 var inputText = document.getElementById("inputText");
+    todos = {},
+    todoCounter = 0,
 
+inputText.onkeyup = function (event){
+	var todo_key, itemText = inputText.value;
+	function Todo(todoText, priority, key) {
+    this.todoText = todoText;
+    this.priority = priority;
+    this.key = key;
 
-inputText.onkeyup = function(event){
+    var listItem = document.createElement("li");
+	listItem.innerText = todoText;
+	todoList.appendChild(listItem);
+}
 
-	if(itemText =="" || itemText == " "){
-	return false;
-	} else {
-		if(event.which == 13) {
-		var itemText = inputText.value;
-		
-		alert("before: "+todoCounter);
-		todoCounter = todoCounter+1;
-
-		window['todo'+todoCounter] = new todo(itemText, false);
-
-
-		console.log(todoCounter);
-		alert(todoCounter);
-
-
-		if ('undefined' !== todo1) {
-		console.log(todo1.todoText);
-		}
-
-
-		}
-	}
-
+  	if (undefined === itemText || itemText === "" || itemText === " ") {
+ 		return false;
+    	}
+    	if (event.which === 13) {
+            todoCounter = todoCounter + 1;
+            todo_key = 'todo_' + todoCounter;          
+            //todos[todo_key].key = todo_key;
+            todos[todo_key] = new Todo(itemText, false, todo_key);
+                      
+            document.getElementById("inputText").blur();
+            document.getElementById("inputText").value = "";
+    }
 }
