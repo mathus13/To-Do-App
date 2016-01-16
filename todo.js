@@ -1,18 +1,14 @@
-var inputText = document.getElementById("inputText");
+var inputText = document.getElementById("inputText"),
     todos = {},
     todoCounter = 0,
+    Todo = function (todoText, priority, key) {
+        var listItem = document.createElement("li");
+	    listItem.innerText = todoText;
+	    todoList.appendChild(listItem);
+    }
 
 inputText.onkeyup = function (event){
 	var todo_key, itemText = inputText.value;
-	function Todo(todoText, priority, key) {
-    this.todoText = todoText;
-    this.priority = priority;
-    this.key = key;
-
-    var listItem = document.createElement("li");
-	listItem.innerText = todoText;
-	todoList.appendChild(listItem);
-}
 
   	if (undefined === itemText || itemText === "" || itemText === " ") {
  		return false;
@@ -26,4 +22,4 @@ inputText.onkeyup = function (event){
             document.getElementById("inputText").blur();
             document.getElementById("inputText").value = "";
     }
-}
+};
