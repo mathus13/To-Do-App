@@ -1,20 +1,46 @@
 var app = (function () {
 
-    var inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0;
-    // uncomment when needed: endCounter = 0; 
+    var inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, endCounter = 0; 
 
-    doTheThing = function (todo_key, itemText) {
+    itsTimeToMakeTheDonuts = function (todo_key, itemText) {
     	todos[todo_key] = {};
     	todos[todo_key].key = todo_key;
-    	//un-comment once loop is active, not needed atm
-    	//todos[todo_key].listed = false;
+    	todos[todo_key].listed = false;
+    	todos[todo_key].priority = null;
     	todos[todo_key].todoText = itemText;
+        endCounter += 1;
     };
 
-    listTodos = function (todo_key, todoText) {
-        var listItem = document.createElement("li");
-        listItem.innerText = todos[todo_key].todoText;
-        todoList.appendChild(listItem);
+    listTodos = function (todo_key, todoText, todos) {
+    	var i, j, listing, priorityCheck;
+
+        doTheThing = function () {
+        	var listItem = document.createElement("li");
+                listItem.innerText = todos[todo_key].todoText;
+                todoList.appendChild(listItem);
+        };
+
+        for (i = 1, j = endCounter + 1; i < j; i++) {
+        	listing = todos['todo_'+i].listed;
+        	priorityCheck = todos['todo_'+i].priority;
+        	    
+        	if (listing === false && priorityCheck !== null) {
+        	    todos['todo_'+i].listed = true;
+                doTheThing ();
+            };
+            
+        };
+        
+        for (i = 1, j = endCounter + 1; i < j; i++) {
+        	listing = todos['todo_'+i].listed;
+        	priorityCheck = todos['todo_'+i].priority;
+        	    
+        	if (listing === false && priorityCheck === null) {
+        	    todos['todo_'+i].listed = true;
+                doTheThing ();
+            };
+            
+        };
     };
 
     inputText.onkeyup = function (event){
@@ -26,14 +52,10 @@ var app = (function () {
     	    if (event.which === 13) {
     		    //if end counter is 0 add total objects from local storage
                 todoCounter = todoCounter + 1;
-                //uncomment when needed: endCounter = endCounter + 1;
                 todo_key = 'todo_' + todoCounter; 
                 console.log(todo_key);
-                doTheThing(todo_key, itemText);
-                listTodos(todo_key, todoText);
-                    //for (i)
-                    //for in loop if listed = false && priority !null {
-
+                itsTimeToMakeTheDonuts(todo_key, itemText);
+                listTodos(todo_key, todoText, todos);
                 document.getElementById("inputText").value = "";
         };
     };
