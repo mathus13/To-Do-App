@@ -27,7 +27,8 @@ ul {
 }
 
 span {
-	background: #C9B5B1; 
+	background: #D1CCDC;
+	margin-left: 10px;
 }
 
 input[type=text] {
@@ -38,4 +39,8 @@ input[type=text] {
 input[type=text]:focus {
 	width: 250px;
 	outline: none;
+}
+
+.checkbox {
+
 }
