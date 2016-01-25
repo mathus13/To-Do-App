@@ -12,10 +12,6 @@ var app = (function () {
     listTodos = function (todo_key, todoText, todos) {
     	var i, j, listing, priorityCheck, todoText;
         doTheThing = function () {
-
-            //not sure if should I leave elements "anonymous" with key property
-            //or if I can name each element dynamically with todo_key integer
-
         	//listItem
         	var listItem = document.createElement("li");
         	listItem.key = 'todo_'+todoCounter;
