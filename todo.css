@@ -1,22 +1,22 @@
 * {
-	background-color: #d2c9c0;
+	background-color: #f5edf0;
 }
 
 h1 {
-	color: #483934;
+	color: #424c55;
 }
 
 .button {
-	background-color: #b18976;
-	color: #47449;
+	background-color: #D1C5C6;
+	color: #3d2c2e;
 	outline: none;
 }
 
 li {
-	border: 1px groove #462c1d;
-	background: #c9c2aa; 
-	padding: 5x 10px;
-	color: #462c1d;
+	border: 1px groove #D1C5C6;
+	background: #D1CCDC; 
+	padding: 0px 10px;
+	color: #424c55;
 	margin: 1px;
 }
 
@@ -27,13 +27,12 @@ ul {
 }
 
 span {
-	background: #c9c2aa; 
+	background: #C9B5B1; 
 }
 
 input[type=text] {
 	width: 125px;
 	transition: ease-in-out, width .35s ease-in-out;
-
 }
 
 input[type=text]:focus {
