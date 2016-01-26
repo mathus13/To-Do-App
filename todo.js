@@ -47,13 +47,12 @@ var app = (function () {
                 doTheThing ();
             };
         };
-
     };
     //function execution triggered by pressing enter in input field
     inputText.onkeyup = function (event){
-            var todo_key, itemText = inputText.value, i, todoText;
-
-  	    if (undefined === itemText || itemText === "" || itemText === " ") {
+        var todo_key, itemText = inputText.value, i, todoText;
+        //if not undefined or one space, proceeds on enter key
+        if (undefined === itemText || itemText === "" || itemText === " ") {
             return false;
     	    }
     	    if (event.which === 13) {
