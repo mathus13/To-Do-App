@@ -24,10 +24,15 @@ var app = (function () {
             var span = document.createElement("span");
             span.key = todo_key;
             span.innerText = todos[todo_key].todoText;
+            //button
+            var delButton = document.createElement("button");
+            delButton.key = todo_key;
+            delButton.className = "delButton";
             //place elements
             listItem.appendChild(checkBox);
             listItem.appendChild(span);
             todoList.appendChild(listItem);
+            listItem.appendChild(delButton);
         };
         //lists prioritized todos first
         for (i = 1, j = todoCounter + 1; i < j; i++) {
