@@ -6,18 +6,53 @@ h1 {
 	color: #424c55;
 }
 
+.checkbox {
+    margin-top: 5px;
+}
+
+.checkbox:hover {
+    background: #f5edf0;
+    box-shadow: 0px 2px 5px 0px #424c55;
+}
+
 .button {
-	background-color: #D1C5C6;
+	background-color: #B3BAB4;
 	color: #3d2c2e;
 	outline: none;
+}
+
+.delButton {
+	background-color: #B3BAB4;
+	color: #701822;
+	outline: none;
+	font-weight: bold;
+	font-family: cursive;
+	float: left;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #701822;
+	border-radius: 50%;
+	box-shadow: rgba(0,0,0, .75);
+	font-size: 12px;
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 3px;
+	padding: 0px;
+	text-align: center;
+	display: inline-block;
+}
+
+.delButton:hover {
+	color: #424c55;
+	border: 2px solid #701822;
+	background-color: #701822;
 }
 
 li {
 	border: 1px groove #D1C5C6;
 	background: #D1CCDC; 
-	padding: 0px 10px;
-	color: #424c55;
-	margin: 1px;
+	margin-bottom: 1px;
+	margin-top: 1px;
 }
 
 ul {
@@ -29,6 +64,8 @@ ul {
 span {
 	background: #D1CCDC;
 	margin-left: 10px;
+	color: #424c55;
+	padding: 0px 10px;
 }
 
 input[type=text] {
@@ -39,8 +76,4 @@ input[type=text] {
 input[type=text]:focus {
 	width: 250px;
 	outline: none;
-}
-
-.checkbox {
-
 }
