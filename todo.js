@@ -1,4 +1,5 @@
 var app = (function () {
+    //input field for to do items
     var inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0; 
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
@@ -15,24 +16,44 @@ var app = (function () {
         	//listItem
         	var listItem = document.createElement("li");
         	listItem.key = 'todo_'+todoCounter;
-            //checkBox
+            //dropdown
+            var dropDown = document.createElement("select");
+            dropDown.key = 'todo_'+todoCounter;
+            dropDown.className = "dropdown";
+            dropDown.id = "dropDown";
+            var dropDownOpt0 = document.createElement("option")
+            dropDownOpt0.value = 0;
+            dropDownOpt0.innerText = 0;
+            var dropDownOpt1 = document.createElement("option")
+            dropDownOpt1.innerText = 1;
+            var dropDownOpt2 = document.createElement("option")
+            dropDownOpt2.innerText = 2;
+            var dropDownOpt3 = document.createElement("option")
+            dropDownOpt3.innerText = 3;
+            //delete button
+            var delButton = document.createElement("button");
+            delButton.key = todo_key;
+            delButton.className = "delButton";
+            //completed checkBox
             var checkBox = document.createElement("input")
             checkBox.type = "checkbox";
             checkBox.className = "checkbox";
             checkBox.key = todo_key;
-            //span
-            var span = document.createElement("span");
-            span.key = todo_key;
-            span.innerText = todos[todo_key].todoText;
-            //button
-            var delButton = document.createElement("button");
-            delButton.key = todo_key;
-            delButton.className = "delButton";
+            //span for text
+            var textSpan = document.createElement("span");
+            textSpan.key = todo_key;
+            textSpan.className = "textspan";
+            textSpan.innerText = todos[todo_key].todoText;
             //place elements
-            listItem.appendChild(checkBox);
-            listItem.appendChild(span);
             todoList.appendChild(listItem);
             listItem.appendChild(delButton);
+            listItem.appendChild(checkBox);
+            listItem.appendChild(textSpan);
+            listItem.appendChild(dropDown);
+            dropDown.appendChild(dropDownOpt0);
+            dropDown.appendChild(dropDownOpt1);
+            dropDown.appendChild(dropDownOpt2);
+            dropDown.appendChild(dropDownOpt3);
         };
         //lists prioritized todos first
         for (i = 1, j = todoCounter + 1; i < j; i++) {
