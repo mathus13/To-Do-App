@@ -15,33 +15,37 @@ var app = (function () {
         doTheThing = function () {
         	//listItem
         	var listItem = document.createElement("li");
-        	listItem.key = 'todo_'+todoCounter;
+        	listItem.dataset.key = todo_key;
             //dropdown
             var dropDown = document.createElement("select");
-            dropDown.key = 'todo_'+todoCounter;
+            dropDown.dataset.key = todo_key;
             dropDown.className = "dropdown";
-            dropDown.id = "dropDown";
+            // ?? dropDown.id = "dropDown";
             var dropDownOpt0 = document.createElement("option")
             dropDownOpt0.value = 0;
             dropDownOpt0.innerText = 0;
+            dropDownOpt0.dataset.key = dropDown.dataset.key
             var dropDownOpt1 = document.createElement("option")
             dropDownOpt1.innerText = 1;
+            dropDownOpt1.dataset.key = dropDown.dataset.key
             var dropDownOpt2 = document.createElement("option")
             dropDownOpt2.innerText = 2;
+            dropDownOpt2.dataset.key = dropDown.dataset.key
             var dropDownOpt3 = document.createElement("option")
             dropDownOpt3.innerText = 3;
+            dropDownOpt3.dataset.key = dropDown.dataset.key
             //delete button
             var delButton = document.createElement("button");
-            delButton.key = todo_key;
+            delButton.dataset.key = todo_key;
             delButton.className = "delButton";
             //completed checkBox
             var checkBox = document.createElement("input")
             checkBox.type = "checkbox";
-            checkBox.className = "checkbox";
             checkBox.key = todo_key;
+            checkBox.className = "checkbox";
             //span for text
             var textSpan = document.createElement("span");
-            textSpan.key = todo_key;
+            textSpan.dataset.key = todo_key;
             textSpan.className = "textspan";
             textSpan.innerText = todos[todo_key].todoText;
             //place elements
