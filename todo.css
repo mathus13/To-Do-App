@@ -2,18 +2,22 @@
 	background-color: #f5edf0;
 }
 
+h1 {
+	color: #424c55;
+}
+
 .button {
 	background-color: #B3BAB4;
 	color: #3d2c2e;
 	outline: none;
 }
 
-.checkbox {
+.checkBox {
     margin-top: 6px;
     margin-right: 0px;
 }
 
-.checkbox:hover {
+.checkBox:hover {
     background: #f5edf0;
     box-shadow: 0px 2px 5px 0px #424c55;
 }
@@ -45,14 +49,14 @@
 	background-color: #701822;
 }
 
-.dropdown {
+.dropDown {
 	float: left;
 	height: 22x;
 	padding: 0px;
     margin: 2px 5px 0px 5px;
 }
 
-.textspan {
+.textSpan {
 	background: #D1CCDC;
 	margin-left: 10px;
 	color: #424c55;
@@ -62,15 +66,18 @@
 	font-family: Cambria Math, Cambria, Arial;
 }
 
-h1 {
-	color: #424c55;
-}
 
 li {
 	border: 1px groove #D1C5C6;
 	background: #D1CCDC; 
 	margin-bottom: 1px;
 	margin-top: 1px;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 input[type=text] {
@@ -83,8 +90,3 @@ input[type=text]:focus {
 	outline: none;
 }
 
-ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
