@@ -12,17 +12,7 @@ h1 {
 	outline: none;
 }
 
-.checkBox {
-    margin-top: 6px;
-    margin-right: 0px;
-}
-
-.checkBox:hover {
-    background: #f5edf0;
-    box-shadow: 0px 2px 5px 0px #424c55;
-}
-
-.delButton {
+.button_Delete {
 	background-color: #B3BAB4;
 	color: #701822;
 	outline: none;
@@ -43,10 +33,34 @@ h1 {
 	display: inline-block;
 }
 
-.delButton:hover {
+.button_Delete:hover {
 	color: #424c55;
 	border: 2px solid #701822;
 	background-color: #701822;
+}
+
+.checkBox {
+    margin-top: 6px;
+    margin-right: 0px;
+}
+
+.checkBox:hover {
+    background: #f5edf0;
+    box-shadow: 0px 2px 5px 0px #424c55;
+}
+
+.listItem_Default {
+	border: 1px groove #D1C5C6;
+	background: #D1CCDC; 
+	margin-bottom: 1px;
+	margin-top: 1px;
+}
+
+.listItem_Priority {
+	border: 1px groove #D1C5C6;
+	background: #f5e536;
+	margin-bottom: 1px;
+	margin-top: 1px;
 }
 
 .dropDown {
@@ -56,7 +70,7 @@ h1 {
     margin: 2px 5px 0px 5px;
 }
 
-.textSpan {
+.textSpan_Default {
 	background: #D1CCDC;
 	margin-left: 10px;
 	color: #424c55;
@@ -66,13 +80,51 @@ h1 {
 	font-family: Cambria Math, Cambria, Arial;
 }
 
-
-li {
-	border: 1px groove #D1C5C6;
-	background: #D1CCDC; 
+.textSpan_Finished {
+	background: #D1CCDC;
+	margin-left: 10px;
+	color: #424c55;
+	font-weight: bold;
+	padding: 0px 10px;
 	margin-bottom: 1px;
-	margin-top: 1px;
+	font-family: Cambria Math, Cambria, Arial;
+	text-decoration: line-through;
 }
+
+.textSpan_P1 {
+	background: #D1CCDC;
+	margin-left: 10px;
+	color: #D62B3E;
+	font-weight: bold;
+	padding: 0px 10px;
+	margin-bottom: 1px;
+	font-family: Franklin Goth Heavy, Arial Black;
+}
+
+.textSpan_P2 {
+	background: #D1CCDC;
+	margin-left: 10px;
+	/*color: #ffe913;*/
+	color: #D62B3E;
+	font-weight: bold;
+	padding: 0px 10px;
+	margin-bottom: 1px;
+    font-style: italic;
+    text-decoration: underline;
+	font-family: Franklin Goth Heavy, Arial Black;
+}
+
+.textSpan_P3 {
+	background: #f5e536;
+	margin-left: 10px;
+	/*color: #ffe913;*/
+	color: #D62B3E;
+	font-weight: bold;
+	padding: 0px 10px;
+	margin-bottom: 1px;
+	font-family: Franklin Goth Heavy, Arial Black;
+}
+
 
 ul {
 	list-style: none;
@@ -89,4 +141,3 @@ input[type=text]:focus {
 	width: 250px;
 	outline: none;
 }
-
