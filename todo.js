@@ -1,6 +1,5 @@
 var app = (function () {
-    //input field for to do items
-    var inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0; 
+    var  targetKey, targetId, targetSpan, targetLi, inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0; 
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
         todos[todo_key] = {};
@@ -9,13 +8,15 @@ var app = (function () {
         todos[todo_key].priority = null;
         todos[todo_key].todoText = itemText;
     };
-    //adds elements to the markup / assigns matching key to each
+    //adds elements to the markup / assigns matching key / id
     listTodos = function (todo_key, todoText, todos) {
         var i, j, listing, priorityCheck, todoText;
         doTheThing = function () {
             //listItem
             var listItem = document.createElement("li");
             listItem.dataset.key = todo_key;
+            listItem.className = "listItem_Default";
+            listItem.id = "listItem_"+todo_key;
             //dropDown
             var dropDown = document.createElement("select");
             dropDown.dataset.key = todo_key;
@@ -37,9 +38,7 @@ var app = (function () {
             //delete button
             var delButton = document.createElement("button");
             delButton.dataset.key = todo_key;
-            delButton.className = "delButton";
-            console.log("del button class = "+todo_key);
-            console.log("also: "+delButton.dataset.key);
+            delButton.className = "button_Delete";
             //completed checkBox
             var checkBox = document.createElement("input")
             checkBox.type = "checkBox";
@@ -48,8 +47,11 @@ var app = (function () {
             //span for text
             var textSpan = document.createElement("span");
             textSpan.dataset.key = todo_key;
-            textSpan.className = "textSpan";
+            textSpan.id = 'span_'+todo_key;
+            textSpan.className = "textSpan_Default";
             textSpan.innerText = todos[todo_key].todoText;
+            console.log("span Id: "+textSpan.id);
+            console.log("span className: "+textSpan.className);
             //place elements
             todoList.appendChild(listItem);
             listItem.appendChild(delButton);
@@ -60,7 +62,7 @@ var app = (function () {
             dropDown.appendChild(dropDownOpt1);
             dropDown.appendChild(dropDownOpt2);
             dropDown.appendChild(dropDownOpt3);
-            return delButton.dataset.key, checkBox.dataset.key, dropDown.dataset.key;
+            return delButton.dataset.key, checkBox.dataset.key, dropDown.dataset.key, textSpan.dataset.key;
         };
         //lists prioritized todos first
         for (i = 1, j = todoCounter + 1; i < j; i++) {
@@ -79,6 +81,33 @@ var app = (function () {
                 todos['todo_'+i].listed = true;
                 doTheThing ();
             };
+        };
+    };
+    //changes css class of span / list items - call when priority changes
+    casteSystem = function (targetKey, targetLi, targetSpan, todoPriority){
+        //changes priority of selected todo to value from dropDown
+        //null if value selected == 0
+        switch (todoPriority) {
+            case '0': 
+                todos[targetKey].priority = null;
+                targetSpan.className = "textSpan_Default";
+                targetLi.className = "listItem_Default";
+                break;
+            case '1':
+                todos[targetKey].priority = todoPriority;
+                targetSpan.className = "textSpan_P1";
+                break;
+            case '2':
+                todos[targetKey].priority = todoPriority;
+                targetSpan.className = "textSpan_P2";
+                break;
+            case '3':
+                todos[targetKey].priority = todoPriority;
+                targetSpan.className = "textSpan_P3";
+                targetLi.className = "listItem_Priority";
+                break;
+            default:
+                alert("oops you bwoke it");
         };
     };
     //function execution triggered by pressing enter in input field
@@ -101,7 +130,7 @@ var app = (function () {
     //delete button identity check
     document.getElementById("todoList").addEventListener("click", function(e) {
             //on click for delete button
-            if(e.target.className == "delButton") {
+            if(e.target.className == "button_Delete") {
                 console.log("del button clicked "+e.target.dataset.key);
             };
         });
@@ -112,19 +141,23 @@ var app = (function () {
                 console.log("checkBox clicked: "+e.target.dataset.key);
             };
         });
-    //drop down (select) identity check on cchange
+    //drop down (select) identity check on change
     document.getElementById("todoList").addEventListener("change", function(e) {
             //on click for dropDown
             if(e.target.className == "dropDown") {
                 console.log("dropDown clicked: "+e.target.dataset.key);
-                console.log(e.target.id);
-                console.log(e.target.value);
+                var targetKey = e.target.dataset.key;
+                console.log("target key: "+targetKey);
+                var todoPriority = e.target.value;
+                var targetSpan = document.getElementById('span_'+targetKey);
+                var targetLi = document.getElementById('listItem_'+targetKey);
+                casteSystem (targetKey, targetLi, targetSpan, todoPriority)
             };
         });    
     //span identity check on click
     document.getElementById("todoList").addEventListener("click", function(e) {
             //on click for span
-            if(e.target.className == "textSpan") {
+            if(e.target.className == "textSpan_Default" || e.target.className == "textSpan_P1" || e.target.className == "textSpan_P2" || e.target.className == "textSpan_P3") {
                 console.log("textSpan clicked: "+e.target.dataset.key);
             };
         }); 
