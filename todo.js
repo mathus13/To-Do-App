@@ -56,12 +56,12 @@ var app = (function () {
             todoList.appendChild(listItem);
             listItem.appendChild(delButton);
             listItem.appendChild(checkBox);
-            listItem.appendChild(textSpan);
             listItem.appendChild(dropDown);
             dropDown.appendChild(dropDownOpt0);
             dropDown.appendChild(dropDownOpt1);
             dropDown.appendChild(dropDownOpt2);
             dropDown.appendChild(dropDownOpt3);
+            listItem.appendChild(textSpan);
             return delButton.dataset.key, checkBox.dataset.key, dropDown.dataset.key, textSpan.dataset.key;
         };
         //lists prioritized todos first
@@ -96,15 +96,17 @@ var app = (function () {
             case '1':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "textSpan_P1";
+                targetLi.className = "listItem_P1";
                 break;
             case '2':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "textSpan_P2";
+                targetLi.className = "listItem_P2";
                 break;
             case '3':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "textSpan_P3";
-                targetLi.className = "listItem_Priority";
+                targetLi.className = "listItem_P3";
                 break;
             default:
                 alert("oops you bwoke it");
