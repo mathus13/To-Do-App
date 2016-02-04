@@ -1,5 +1,5 @@
 var app = (function () {
-    var  targetKey, targetId, targetSpan, targetLi, targetDiv, inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0; 
+    var  targetKey, targetId, targetSpan, targetLi, targetSpan2, inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0; 
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
         todos[todo_key] = {};
@@ -11,64 +11,65 @@ var app = (function () {
     //adds elements to the markup / assigns matching key / id
     listTodos = function (todo_key, todoText, todos) {
         var i, j, listing, priorityCheck, todoText;
+
         doTheThing = function () {
             //listItem
             var listItem = document.createElement("li");
             listItem.dataset.key = todo_key;
-            listItem.className = "listItem_Default";
+            listItem.className = "list-item_default";
             listItem.id = "listItem_"+todo_key;
-            //dropDown
-            var dropDown = document.createElement("select");
-            dropDown.dataset.key = todo_key;
-            dropDown.className = "dropDown";
-            dropDown.id = "dropDown_"+todo_key;
-            var dropDownOpt0 = document.createElement("option")
-            dropDownOpt0.value = 0;
-            dropDownOpt0.innerText = 0;
-            dropDownOpt0.dataset.key = dropDown.dataset.key
-            var dropDownOpt1 = document.createElement("option")
-            dropDownOpt1.innerText = 1;
-            dropDownOpt1.dataset.key = dropDown.dataset.key
-            var dropDownOpt2 = document.createElement("option")
-            dropDownOpt2.innerText = 2;
-            dropDownOpt2.dataset.key = dropDown.dataset.key
-            var dropDownOpt3 = document.createElement("option")
-            dropDownOpt3.innerText = 3;
-            dropDownOpt3.dataset.key = dropDown.dataset.key
+            //select
+            var select = document.createElement("select");
+            select.dataset.key = todo_key;
+            select.className = "select";
+            select.id = "select_"+todo_key;
+            var selectOpt0 = document.createElement("option")
+            selectOpt0.value = 0;
+            selectOpt0.innerText = 0;
+            selectOpt0.dataset.key = select.dataset.key
+            var selectOpt1 = document.createElement("option")
+            selectOpt1.innerText = 1;
+            selectOpt1.dataset.key = select.dataset.key
+            var selectOpt2 = document.createElement("option")
+            selectOpt2.innerText = 2;
+            selectOpt2.dataset.key = select.dataset.key
+            var selectOpt3 = document.createElement("option")
+            selectOpt3.innerText = 3;
+            selectOpt3.dataset.key = select.dataset.key
             //delete button
             var delButton = document.createElement("button");
             delButton.dataset.key = todo_key;
-            delButton.className = "button_Delete";
-            //completed checkBox
-            var checkBox = document.createElement("input")
-            checkBox.type = "checkBox";
-            checkBox.dataset.key = todo_key;
-            checkBox.className = "checkBox";
+            delButton.className = "button_delete";
+            //completed checkbox
+            var checkbox = document.createElement("input")
+            checkbox.type = "checkbox";
+            checkbox.dataset.key = todo_key;
+            checkbox.className = "checkbox";
             //span for text
             var textSpan = document.createElement("span");
             textSpan.dataset.key = todo_key;
             textSpan.id = 'span_'+todo_key;
-            textSpan.className = "textSpan_Default";
+            textSpan.className = "span_todo-text-default";
             textSpan.innerText = todos[todo_key].todoText;
             console.log("span Id: "+textSpan.id);
             console.log("span className: "+textSpan.className);
-            //div for gradient background
-            var postTextDiv = document.createElement("div");
-            postTextDiv.dataset.key = todo_key;
-            postTextDiv.id = 'div_'+todo_key;
-            postTextDiv.className = "div_LiGradient_Default";
+            //span for gradient background
+            var postTextSpan = document.createElement("span");
+            postTextSpan.dataset.key = todo_key;
+            postTextSpan.id = 'span2_'+todo_key;
+            postTextSpan.className = "span_post-todo-text-default";
             //place elements
             todoList.appendChild(listItem);
             listItem.appendChild(delButton);
-            listItem.appendChild(checkBox);
-            listItem.appendChild(dropDown);
-            dropDown.appendChild(dropDownOpt0);
-            dropDown.appendChild(dropDownOpt1);
-            dropDown.appendChild(dropDownOpt2);
-            dropDown.appendChild(dropDownOpt3);
+            listItem.appendChild(checkbox);
+            listItem.appendChild(select);
+            select.appendChild(selectOpt0);
+            select.appendChild(selectOpt1);
+            select.appendChild(selectOpt2);
+            select.appendChild(selectOpt3);
             listItem.appendChild(textSpan);
-            textSpan.appendChild(postTextDiv);
-            return delButton.dataset.key, checkBox.dataset.key, dropDown.dataset.key, textSpan.dataset.key;
+            textSpan.appendChild(postTextSpan);
+            return delButton.dataset.key, checkbox.dataset.key, select.dataset.key, textSpan.dataset.key;
         };
         //lists prioritized todos first
         for (i = 1, j = todoCounter + 1; i < j; i++) {
@@ -90,33 +91,33 @@ var app = (function () {
         };
     };
     //changes css class of span / list items - call when priority changes
-    casteSystem = function (targetDiv, targetKey, targetLi, targetSpan, todoPriority){
-        //changes priority of selected todo to value from dropDown
+    casteSystem = function (targetKey, targetLi, targetSpan, targetSpan2, todoPriority){
+        //changes priority of selected todo to value from select
         //null if value selected == 0
         switch (todoPriority) {
             case '0': 
                 todos[targetKey].priority = null;
-                targetSpan.className = "textSpan_Default";
-                targetLi.className = "listItem_Default";
-                //targetDiv.className = "div_LiGradient_Default";
+                targetSpan.className = "span_todo-text-default";
+                targetLi.className = "list-item_default";
+                targetSpan2.className = "span_post-todo-text-default";
                 break;
             case '1':
                 todos[targetKey].priority = todoPriority;
-                targetSpan.className = "textSpan_P1";
-                targetLi.className = "listItem_P1";
-                //targetDiv.className = "div_LiGradient_P1";
+                targetSpan.className = "span_todo-text-p1";
+                targetLi.className = "list-item_todo-p1";
+                targetSpan2.className = "span_post-todo-text-p1";
                 break;
             case '2':
                 todos[targetKey].priority = todoPriority;
-                targetSpan.className = "textSpan_P2";
-                targetLi.className = "listItem_P2";
-                //targetDiv.className = "div_LiGradient_P2";
+                targetSpan.className = "span_todo-text-p2";
+                targetLi.className = "list-item_todo-p2";
+                targetSpan2.className = "span_post-todo-text-p2";
                 break;
             case '3':
                 todos[targetKey].priority = todoPriority;
-                targetSpan.className = "textSpan_P3";
-                targetLi.className = "listItem_P3";
-                //targetDiv.className = "div_LiGradient_P3";
+                targetSpan.className = "span_todo-text-p3";
+                targetLi.className = "list-item_todo-p3";
+                targetSpan2.className = "span_post-todo-text-p3";
                 break;
             default:
                 alert("oops you bwoke it");
@@ -142,33 +143,34 @@ var app = (function () {
     //delete button identity check
     document.getElementById("todoList").addEventListener("click", function(e) {
             //on click for delete button
-            if(e.target.className == "button_Delete") {
+            if(e.target.className == "button_delete") {
                 console.log("del button clicked "+e.target.dataset.key);
             };
         });
     //check box identity check
     document.getElementById("todoList").addEventListener("click", function(e) {
-            //on click for checkBox
-            if(e.target.className == "checkBox") {
-                console.log("checkBox clicked: "+e.target.dataset.key);
+            //on click for checkbox
+            if(e.target.className == "checkbox") {
+                console.log("checkbox clicked: "+e.target.dataset.key);
             };
         });
     //drop down (select) identity check on change
     document.getElementById("todoList").addEventListener("change", function(e) {
-            //on click for dropDown
-            if(e.target.className == "dropDown") {
-                console.log("dropDown clicked: "+e.target.dataset.key);
+            //on click for select
+            if(e.target.className == "select") {
+                console.log("select clicked: "+e.target.dataset.key);
                 var targetKey = e.target.dataset.key,
                     todoPriority = e.target.value,
                     targetSpan = document.getElementById('span_'+targetKey),
                     targetLi = document.getElementById('listItem_'+targetKey),
-                    targetDiv = document.getElementById('div_'+targetKey);
-                casteSystem (targetDiv, targetKey, targetLi, targetSpan, todoPriority)            };
+                    targetSpan2 = document.getElementById('span2_'+targetKey);
+                casteSystem (targetKey, targetLi, targetSpan, targetSpan2, todoPriority)
+            };
         });    
     //span identity check on click
     document.getElementById("todoList").addEventListener("click", function(e) {
             //on click for span
-            if(e.target.className == "textSpan_Default" || e.target.className == "textSpan_P1" || e.target.className == "textSpan_P2" || e.target.className == "textSpan_P3") {
+            if(e.target.className == "span_todo-text-default" || e.target.className == "span_todo-text-p1" || e.target.className == "span_todo-text-p2" || e.target.className == "span_todo-text-p3") {
                 console.log("textSpan clicked: "+e.target.dataset.key);
             };
         }); 
