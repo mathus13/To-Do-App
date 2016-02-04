@@ -1,5 +1,5 @@
 var app = (function () {
-    var  targetKey, targetId, targetSpan, targetLi, inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0; 
+    var  targetKey, targetId, targetSpan, targetLi, targetDiv, inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0; 
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
         todos[todo_key] = {};
@@ -52,6 +52,11 @@ var app = (function () {
             textSpan.innerText = todos[todo_key].todoText;
             console.log("span Id: "+textSpan.id);
             console.log("span className: "+textSpan.className);
+            //div for gradient background
+            var postTextDiv = document.createElement("div");
+            postTextDiv.dataset.key = todo_key;
+            postTextDiv.id = 'div_'+todo_key;
+            postTextDiv.className = "div_LiGradient_Default";
             //place elements
             todoList.appendChild(listItem);
             listItem.appendChild(delButton);
@@ -62,6 +67,7 @@ var app = (function () {
             dropDown.appendChild(dropDownOpt2);
             dropDown.appendChild(dropDownOpt3);
             listItem.appendChild(textSpan);
+            textSpan.appendChild(postTextDiv);
             return delButton.dataset.key, checkBox.dataset.key, dropDown.dataset.key, textSpan.dataset.key;
         };
         //lists prioritized todos first
@@ -84,7 +90,7 @@ var app = (function () {
         };
     };
     //changes css class of span / list items - call when priority changes
-    casteSystem = function (targetKey, targetLi, targetSpan, todoPriority){
+    casteSystem = function (targetDiv, targetKey, targetLi, targetSpan, todoPriority){
         //changes priority of selected todo to value from dropDown
         //null if value selected == 0
         switch (todoPriority) {
@@ -92,21 +98,25 @@ var app = (function () {
                 todos[targetKey].priority = null;
                 targetSpan.className = "textSpan_Default";
                 targetLi.className = "listItem_Default";
+                //targetDiv.className = "div_LiGradient_Default";
                 break;
             case '1':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "textSpan_P1";
                 targetLi.className = "listItem_P1";
+                //targetDiv.className = "div_LiGradient_P1";
                 break;
             case '2':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "textSpan_P2";
                 targetLi.className = "listItem_P2";
+                //targetDiv.className = "div_LiGradient_P2";
                 break;
             case '3':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "textSpan_P3";
                 targetLi.className = "listItem_P3";
+                //targetDiv.className = "div_LiGradient_P3";
                 break;
             default:
                 alert("oops you bwoke it");
@@ -148,13 +158,12 @@ var app = (function () {
             //on click for dropDown
             if(e.target.className == "dropDown") {
                 console.log("dropDown clicked: "+e.target.dataset.key);
-                var targetKey = e.target.dataset.key;
-                console.log("target key: "+targetKey);
-                var todoPriority = e.target.value;
-                var targetSpan = document.getElementById('span_'+targetKey);
-                var targetLi = document.getElementById('listItem_'+targetKey);
-                casteSystem (targetKey, targetLi, targetSpan, todoPriority)
-            };
+                var targetKey = e.target.dataset.key,
+                    todoPriority = e.target.value,
+                    targetSpan = document.getElementById('span_'+targetKey),
+                    targetLi = document.getElementById('listItem_'+targetKey),
+                    targetDiv = document.getElementById('div_'+targetKey);
+                casteSystem (targetDiv, targetKey, targetLi, targetSpan, todoPriority)            };
         });    
     //span identity check on click
     document.getElementById("todoList").addEventListener("click", function(e) {
