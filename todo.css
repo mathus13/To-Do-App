@@ -1,26 +1,19 @@
-/* gradient pallette
-gray     #D1CCDC
-yellow   #F2E9B3
-red1     #F2C2B3
-red2     #701822
-orange   #F5B976 */
+  /* red DD7373 */
 
-.button {
+  .button {
 	background-color: #B3BAB4;
 	color: #3d2c2e;
 	outline: none;
-}
-
-.button_Delete {
+} .button_delete {
 	background-color: #B3BAB4;
-	color: #701822;
+	color: #6E0D25;
 	outline: none;
 	font-weight: bold;
 	font-family: cursive;
 	float: left;
 	width: 16px;
 	height: 16px;
-	border: 2px solid #701822;
+	border: 2px solid #3C1518;
 	border-radius: 50%;
 	box-shadow: rgba(0,0,0,.75);
 	font-size: 12px;
@@ -30,155 +23,116 @@ orange   #F5B976 */
 	padding: 0px;
 	text-align: center;
 	display: inline-block;
-}
-
-.button_Delete:hover {
-	color: #424c55;
-	border: 2px solid #701822;
-	background-color: #701822;
-}
-
-.checkBox {
+} .button_delete:hover {
+	color: #791205;
+	border: 2px solid #3C1518;
+	background-color: #3C1518;
+} .checkbox {
     margin-top: 6px;
     margin-right: 0px;
-}
-
-.checkBox:hover {
+} .checkbox:hover {
     background: #f5edf0;
-    box-shadow: 0px 2px 5px 0px #424c55;
-}
-
-.div_LiGradient_Default {
+    box-shadow: 0px 2px 5px 0px #791205;
+} .span_post-todo-text-default {
     width: auto;
     background: #000;
-    float: right;
-}
-
-.div_LiGradient_P1 {
+    z-index: 1;
+} .span_post-todo-text-p1 {
     width: auto;
     background: #eee;
-    z-index: 2;
-    float: left;
-}
-
-.div_LiGradient_P2 {
+    /* background: linear-gradient(to right, #D1CCDC, #F6EFA6); */
+    background-color: #000000;
+    z-index: 1;
+} .span_post-todo-text-p2 {
     width: auto;
     background: #eee;
-    z-index: 2;
-}
-
-.div_LiGradient_P3 {
+    /* background: linear-gradient(to right, #D1CCDC, #F6EFA6); */
+    background-color: #000000;
+    z-index: 1;
+} .span_post-todo-text-p3 {
     width: auto;
     background: #eee;
-    z-index: 2;
-}
-
-.dropDown {
+    /* background: linear-gradient(to right, #D1CCDC, #F6EFA6); */
+    background-color: #000000;
+    z-index: 1;
+} .select {
 	float: left;
 	height: 22x;
 	padding: 0px;
     margin: 2px 5px 0px 5px;
-}
-
-.listItem_Default {
-	border: 1px groove #D1C5C6;
-	background: #D1CCDC; 
-	margin-bottom: 1px;
-	margin-top: 1px;
-}
-
-.listItem_P1 {
+} .list-item_default {
 	border: 1px groove #D1C5C6;
 	background-color: #D1CCDC;
 	margin-bottom: 1px;
 	margin-top: 1px;
-}
-
-.listItem_P2 {
+} .list-item_todo-p1 {
 	border: 1px groove #D1C5C6;
-	background-color: #F2E9B3;
+	background-color: #F6EFA6;
 	margin-bottom: 1px;
 	margin-top: 1px;
-}
-
-.listItem_P3 {
+} .list-item_todo-p2 { 
 	border: 1px groove #D1C5C6;
-	background-color: #F2C2B3; 
+	background-color: #EDCDA4;
 	margin-bottom: 1px;
 	margin-top: 1px;
-}
-
-.textSpan_Default {
+} .list-item_todo-p3 {
+	border: 1px groove #D1C5C6;
+	background-color: #F87666;
+	margin-bottom: 1px;
+	margin-top: 1px;
+} .span_todo-text-default {
 	background-color: #D1CCDC;
 	margin-left: 10px;
-	color: #424c55;
+	color: # #424c55;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
 	font-family: Cambria Math, Cambria, Arial;
-}
-
-.textSpan_Finished {
+} .span_todo-text-finished{
 	background: #D1CCDC;
 	margin-left: 10px;
-	color: #424c55;
+	color: # #424c55;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
 	font-family: Cambria Math, Cambria, Arial;
 	text-decoration: line-through;
-}
-
-.textSpan_P1 {
-	/* background: linear-gradient(to right, #D1CCDC, #F2E9B3); */
+} .span_todo-text-p1{
+	background: #F6EFA6;
 	margin-left: 10px;
-	color: #424c55;
+	color: #791205;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
 	font-family: Franklin Goth Heavy, Arial Black;
-}
-
-.textSpan_P2 {
-	/* background: linear-gradient(to right, #F2E9B3, #F2C2B3); */
+} .span_todo-text-p2 {
+	background-color: #EDCDA4;
 	margin-left: 10px;
-	/*color: #ffe913;*/
-	color: #424c55;
+	color: #791205;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
 	font-family: Franklin Goth Heavy, Arial Black;
-}
-
-.textSpan_P3 {
-	/* background: linear-gradient(to right, #F2C2B3, #701822); */
+} .span_todo-text-p3 {
+	background: #F87666;
 	margin-left: 10px;
-	color: #424c55;
+	color: #791205;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
 	font-family: Franklin Goth Heavy, Arial Black;
-}
-
-* {
+} * {
 	background-color: #f5edf0;
-}
-
-h1 {
-	color: #424c55;
-}
-
-input[type=text] {
+	z-index: 0;
+} h1 {
+	color: # #424c55;
+} input[type=text] {
 	width: 125px;
 	transition: ease-in-out, width .35s ease-in-out;
-}
-
-input[type=text]:focus {
+} input[type=text]:focus {
 	width: 250px;
 	outline: none;
-}
-
-ul {
+} ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
