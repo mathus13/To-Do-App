@@ -72,7 +72,7 @@
 	margin-top: 1px;
 } .list-item_todo-p2 { 
 	border: 1px groove #D1C5C6;
-	background-color: #EDCDA4;
+	background-color: #F5BF85;
 	margin-bottom: 1px;
 	margin-top: 1px;
 } .list-item_todo-p3 {
@@ -106,7 +106,7 @@
 	margin-bottom: 1px;
 	font-family: Franklin Goth Heavy, Arial Black;
 } .span_todo-text-p2 {
-	background-color: #EDCDA4;
+	background-color: #F5BF85;
 	margin-left: 10px;
 	color: #791205;
 	font-weight: bold;
