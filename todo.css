@@ -33,28 +33,6 @@
 } .checkbox:hover {
     background: #f5edf0;
     box-shadow: 0px 2px 5px 0px #791205;
-} .span_post-todo-text-default {
-    width: auto;
-    background: #000;
-    z-index: 1;
-} .span_post-todo-text-p1 {
-    width: auto;
-    background: #eee;
-    /* background: linear-gradient(to right, #D1CCDC, #F6EFA6); */
-    background-color: #000000;
-    z-index: 1;
-} .span_post-todo-text-p2 {
-    width: auto;
-    background: #eee;
-    /* background: linear-gradient(to right, #D1CCDC, #F6EFA6); */
-    background-color: #000000;
-    z-index: 1;
-} .span_post-todo-text-p3 {
-    width: auto;
-    background: #eee;
-    /* background: linear-gradient(to right, #D1CCDC, #F6EFA6); */
-    background-color: #000000;
-    z-index: 1;
 } .select {
 	float: left;
 	height: 22x;
