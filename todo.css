@@ -66,7 +66,7 @@
 	padding: 0px 10px;
 	margin-bottom: 1px;
 	font-family: Cambria Math, Cambria, Arial;
-} .span_todo-text-finished{
+} .span_todo-text-finished {
 	background: #D1CCDC;
 	margin-left: 10px;
 	color: # #424c55;
@@ -75,7 +75,7 @@
 	margin-bottom: 1px;
 	font-family: Cambria Math, Cambria, Arial;
 	text-decoration: line-through;
-} .span_todo-text-p1{
+} .span_todo-text-p1 {
 	background: #F6EFA6;
 	margin-left: 10px;
 	color: #791205;
