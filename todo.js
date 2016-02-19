@@ -53,11 +53,6 @@ var app = (function () {
             textSpan.innerText = todos[todo_key].todoText;
             console.log("span Id: "+textSpan.id);
             console.log("span className: "+textSpan.className);
-            //span for gradient background
-            var postTextSpan = document.createElement("span");
-            postTextSpan.dataset.key = todo_key;
-            postTextSpan.id = 'span2_'+todo_key;
-            postTextSpan.className = "span_post-todo-text-default";
             //place elements
             todoList.appendChild(listItem);
             listItem.appendChild(delButton);
@@ -68,7 +63,6 @@ var app = (function () {
             select.appendChild(selectOpt2);
             select.appendChild(selectOpt3);
             listItem.appendChild(textSpan);
-            textSpan.appendChild(postTextSpan);
             return delButton.dataset.key, checkbox.dataset.key, select.dataset.key, textSpan.dataset.key;
         };
         //lists prioritized todos first
@@ -99,25 +93,21 @@ var app = (function () {
                 todos[targetKey].priority = null;
                 targetSpan.className = "span_todo-text-default";
                 targetLi.className = "list-item_default";
-                targetSpan2.className = "span_post-todo-text-default";
                 break;
             case '1':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "span_todo-text-p1";
                 targetLi.className = "list-item_todo-p1";
-                targetSpan2.className = "span_post-todo-text-p1";
                 break;
             case '2':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "span_todo-text-p2";
                 targetLi.className = "list-item_todo-p2";
-                targetSpan2.className = "span_post-todo-text-p2";
                 break;
             case '3':
                 todos[targetKey].priority = todoPriority;
                 targetSpan.className = "span_todo-text-p3";
                 targetLi.className = "list-item_todo-p3";
-                targetSpan2.className = "span_post-todo-text-p3";
                 break;
             default:
                 alert("oops you bwoke it");
