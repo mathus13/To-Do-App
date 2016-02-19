@@ -1,5 +1,3 @@
-  /* red DD7373 */
-
   .button {
 	background-color: #B3BAB4;
 	color: #3d2c2e;
@@ -94,7 +92,7 @@
 } .span_todo-text-p3 {
 	background: #F87666;
 	margin-left: 10px;
-	color: #791205;
+	color: #000000;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
