@@ -1,5 +1,5 @@
 var app = (function () {
-    var  targetKey, targetId, targetSpan, targetLi, todoCounter, redorder, inputText = document.getElementById("inputText"), todos = {}, todoPriority = 0;
+    var  targetKey, targetId, targetSpan, targetLi, todoCounter, reorder, inputText = document.getElementById("inputText"), todos = {}, todoPriority = 0;
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
         todos[todo_key] = {};
