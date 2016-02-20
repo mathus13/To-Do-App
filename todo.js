@@ -1,5 +1,5 @@
 var app = (function () {
-    var  targetKey, targetId, targetSpan, targetLi, targetSpan2, inputText = document.getElementById("inputText"), todos = {}, todoCounter = 0, todoPriority = 0, reorder;
+    var  targetKey, targetId, targetSpan, targetLi, todoCounter, redorder, inputText = document.getElementById("inputText"), todos = {}, todoPriority = 0;
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
         todos[todo_key] = {};
@@ -15,6 +15,8 @@ var app = (function () {
         listItem.dataset.key = todo_key;
         listItem.className = "list-item_default";
         listItem.id = "listItem_"+todo_key;
+        todos[todo_key].listed = true;
+        console.log("li ID "+"listItem_"+todo_key);
         //select for priority level
         var select = document.createElement("select");
         select.dataset.key = todo_key;
@@ -59,7 +61,11 @@ var app = (function () {
         select.appendChild(selectOpt3);
         listItem.appendChild(textSpan);
         return delButton.dataset.key, checkbox.dataset.key, select.dataset.key, textSpan.dataset.key;
-        };
+    };
+    //reassigns keys to objects and dom elements after deleting a single element
+    locksmith = function (targetKey) {
+        //!do stuff here
+    };
     //assigns css class based on priority
     casteSystem = function (targetKey, todoPriority){
         var targetSpan = document.getElementById('span_'+targetKey),
@@ -92,13 +98,16 @@ var app = (function () {
     };
     //removes dom elements - pass reorder as true when reordering
     delteted = function (targetKey, reorder) {
-        var rangeObj = new Range();
-        rangeObj.selectNodeContents(listItem); //????
-        rangeObj.deleteContents();
+        var element = document.getElementById('listItem_'+targetKey);
+            console.log(reorder);
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+            element.remove();
+        };
+        todos[targetKey].listed = false;
         //removes todo objects
         deltaco = function (targetKey) {
             delete todos[targetKey];
-            todoCounter -= 1;
         };
         if (reorder === false) {
             deltaco ()
@@ -109,11 +118,10 @@ var app = (function () {
         var i, j, k, listing, priorityCheck, todoText, targetKey = todo_key;
         //lists todos in order of priority (3, 2, 1, 0)
         for (k = 3; k < 0; k--) {
-            for (i = 1, j = todoCounter + 1; i < j; i++) {
+            for (i = 1, j = Object.keys(todos).length + 1; i < j; i++) {
                 listing = todos['todo_'+i].listed;
                 priorityCheck = todos['todo_'+i].priority;
                 if (listing === false && priorityCheck === k) {
-                    todos['todo_'+i].listed = true;
                     doTheThing(todo_key, todoText);
                     casteSystem(todo_key, k);
                 };
@@ -129,8 +137,9 @@ var app = (function () {
             }
             if (event.which === 13) {
                 // to be added: if end counter is 0 add todo objects from local storage
-                todoCounter += 1;
+                todoCounter = Object.keys(todos).length + 1;
                 todo_key = 'todo_' + todoCounter;
+                console.log(todo_key);
                 itsTimeToMakeTheDonuts(todo_key, itemText);
                 doTheThing(todo_key, todoText);
                 document.getElementById("inputText").value = "";
@@ -142,6 +151,7 @@ var app = (function () {
             //on click for delete button
             if(e.target.className == "button_delete") {
                 console.log("del button clicked "+e.target.dataset.key);
+                delteted(e.target.dataset.key, false);
             };
         });
     //check box identity check
