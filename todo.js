@@ -1,5 +1,5 @@
 var app = (function () {
-    var  targetKey, targetId, targetSpan, targetLi, todoCounter, reorder, inputText = document.getElementById("inputText"), todos = {}, todoPriority = 0;
+    var  targetKey, targetId, targetSpan, targetLi, todoCounter, reorder, splitKey, inputText = document.getElementById("inputText"), todos = {}, todoPriority = 0;
     //creates the todo items
     itsTimeToMakeTheDonuts = function (todo_key, itemText) {
         todos[todo_key] = {};
@@ -16,7 +16,6 @@ var app = (function () {
         listItem.className = "list-item_default";
         listItem.id = "listItem_"+todo_key;
         todos[todo_key].listed = true;
-        console.log("li ID "+"listItem_"+todo_key);
         //select for priority level
         var select = document.createElement("select");
         select.dataset.key = todo_key;
@@ -25,30 +24,28 @@ var app = (function () {
         var selectOpt0 = document.createElement("option")
         selectOpt0.value = 0;
         selectOpt0.innerText = 0;
-        selectOpt0.dataset.key = select.dataset.key
         var selectOpt1 = document.createElement("option")
         selectOpt1.innerText = 1;
-        selectOpt1.dataset.key = select.dataset.key
         var selectOpt2 = document.createElement("option")
         selectOpt2.innerText = 2;
-        selectOpt2.dataset.key = select.dataset.key
         var selectOpt3 = document.createElement("option")
         selectOpt3.innerText = 3;
-        selectOpt3.dataset.key = select.dataset.key
         //delete button
         var delButton = document.createElement("button");
         delButton.dataset.key = todo_key;
         delButton.className = "button_delete";
+        delButton.id = "delButton_"+todo_key;
         //completed checkbox
         var checkbox = document.createElement("input")
         checkbox.dataset.key = todo_key;
         checkbox.type = "checkbox";
         checkbox.className = "checkbox";
+        checkbox.id = "checkbox_"+todo_key;
         //span for text
         var textSpan = document.createElement("span");
         textSpan.dataset.key = todo_key;
-        textSpan.id = 'span_'+todo_key;
         textSpan.className = "span_todo-text-default";
+        textSpan.id = 'span_'+todo_key;
         textSpan.innerText = todos[todo_key].todoText;
         //append elements
         todoList.appendChild(listItem);
@@ -64,7 +61,16 @@ var app = (function () {
     };
     //reassigns keys to objects and dom elements after deleting a single element
     locksmith = function (targetKey) {
-        //!do stuff here
+        //creates new key from old key
+        var splitKey = targetKey.split("_");
+        var newKeyNum = Number(splitKey[1])+1;
+        var newKey = 'todo_'+newKeyNum;
+        console.log(newKey);
+        //rekey todo
+        
+        //rekey elements
+
+        //update elements id
     };
     //assigns css class based on priority
     casteSystem = function (targetKey, todoPriority){
@@ -99,7 +105,6 @@ var app = (function () {
     //removes dom elements - pass reorder as true when reordering
     delteted = function (targetKey, reorder) {
         var element = document.getElementById('listItem_'+targetKey);
-            console.log(reorder);
         while (element.firstChild) {
             element.removeChild(element.firstChild);
             element.remove();
@@ -108,9 +113,10 @@ var app = (function () {
         //removes todo objects
         deltaco = function (targetKey) {
             delete todos[targetKey];
+            locksmith (targetKey);
         };
         if (reorder === false) {
-            deltaco ()
+            deltaco (targetKey);
         };
     };    
     //reorders dom elements after deletion
