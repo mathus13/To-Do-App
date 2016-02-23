@@ -11,7 +11,7 @@
 	float: left;
 	width: 16px;
 	height: 16px;
-	border: 2px solid #3C1518;
+	border: 2px solid #E21725;
 	border-radius: 50%;
 	box-shadow: rgba(0,0,0,.75);
 	font-size: 12px;
@@ -23,19 +23,19 @@
 	display: inline-block;
 } .button_delete:hover {
 	color: #791205;
-	border: 2px solid #3C1518;
-	background-color: #3C1518;
+	border: 2px solid #E21725;
+	background-color: #E21725;
 } .checkbox {
-    margin-top: 6px;
-    margin-right: 0px;
+        margin-top: 6px;
+        margin-right: 0px;
 } .checkbox:hover {
-    background: #f5edf0;
-    box-shadow: 0px 2px 5px 0px #791205;
+        background: #f5edf0;
+        box-shadow: 0px 2px 5px 0px #791205;
 } .select {
 	float: left;
 	height: 22x;
 	padding: 0px;
-    margin: 2px 5px 0px 5px;
+        margin: 2px 5px 0px 5px;
 } .list-item_default {
 	border: 1px groove #D1C5C6;
 	background-color: #D1CCDC;
@@ -59,7 +59,7 @@
 } .span_todo-text-default {
 	background-color: #D1CCDC;
 	margin-left: 10px;
-	color: # #424c55;
+	color: # #000000;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
@@ -76,7 +76,7 @@
 } .span_todo-text-p1 {
 	background: #F6EFA6;
 	margin-left: 10px;
-	color: #791205;
+	color: #000000;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
@@ -84,7 +84,7 @@
 } .span_todo-text-p2 {
 	background-color: #F5BF85;
 	margin-left: 10px;
-	color: #791205;
+	color: #000000;
 	font-weight: bold;
 	padding: 0px 10px;
 	margin-bottom: 1px;
@@ -106,7 +106,7 @@
 	width: 125px;
 	transition: ease-in-out, width .35s ease-in-out;
 } input[type=text]:focus {
-	width: 250px;
+	width: 500px;
 	outline: none;
 } ul {
 	list-style: none;
