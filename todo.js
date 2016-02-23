@@ -6,7 +6,7 @@ var app = (function () {
     updateCounter = function () {
         todoCounter = Object.keys(todos).length;
         return todoCounter;
-    }
+    };
     //creates objects
     createObject = function (todo_key, itemText) {
         todos[todo_key] = {};
@@ -67,22 +67,28 @@ var app = (function () {
         listItem.appendChild(textSpan);
         return delButton.dataset.key, checkbox.dataset.key, select.dataset.key, textSpan.dataset.key;
     };
+    updateElement = function (targetKey, newKey, type) {
+        element = document.getElementById(type+'_'+targetKey);
+        element.dataset.key = newKey;
+        element.id = type+'_'+newKey;
+    };
     //reassigns keys to todo objects and dom elements after deletion
     rekey = function (deletedKey, newTotal) {
-        //creates new key from old key and checks todos length
-        var splitKey, delNumber, targetKey, newKey, element,
-        oldTotal = newTotal + 1;        
+        //create new key from old key and checks todos length
+        var splitKey, delNumber, targetKey, newKey, element, i, j, k,
+        //old total = total before deletion
+        oldTotal = newTotal + 1;
         splitKey = deletedKey.split("_"),
         delNumber = Number(splitKey[1]);
-        //rekey objects / elements if the deleted todo key < the previous total(ie not the last one)
+        // if the deleted object was not the last object
         if (splitKey[1] < oldTotal) {
-            console.log("deleted: "+delNumber+" old total: "+oldTotal);
-            for (var i = delNumber, j = i + 1, k = oldTotal; i === k; i++) {
-                console.log("for loop is working");
+            console.log("i know the problem is not the if statement");
+            for (i = delNumber, k = oldTotal; i < k; i++) {
+                j = i + 1;
                 targetKey = 'todo_'+j;
+                console.log("target key: "+targetKey);
                 newKey = 'todo_'+i;
-                console.log(targetKey);
-                console.log(newKey);
+                console.log("new key: "+newKey);
                 //replace todo object
                 todos[newKey] = {};
                 todos[newKey].key = newKey;
@@ -90,10 +96,12 @@ var app = (function () {
                 todos[newKey].priority = todos[targetKey].priority;
                 todos[newKey].todoText = todos[targetKey].todoText;
                 delete todos[targetKey];
-                //update element key and ID
-                element = getElementById(targetKey);
-                element.dataset.key = newKey;
-                element.id = newKey;
+                //update element target new type
+                updateElement(targetKey, newKey, "listItem");
+                updateElement(targetKey, newKey, "select");
+                updateElement(targetKey, newKey, "delButton");
+                updateElement(targetKey, newKey, "checkbox");
+                updateElement(targetKey, newKey, "span");
             };
         };
     };
@@ -130,7 +138,6 @@ var app = (function () {
     //removes todo objects
     removeObject = function (targetKey) {
         delete todos[targetKey];
-        console.log("counter before re key: "+todoCounter);
         updateCounter();
         rekey(targetKey, todoCounter);
     };
@@ -141,7 +148,6 @@ var app = (function () {
             element.removeChild(element.firstChild);
             element.remove();
         };
-        console.log("removed elements for "+targetKey);
         todos[targetKey].listed = false;
         if (reorder === false) {
             removeObject(targetKey);
@@ -166,7 +172,6 @@ var app = (function () {
     inputText.onkeyup = function (event){
         var todo_key, itemText = inputText.value, i, todoText;
         //if input text value is not undefined or one space, proceed on enter key
-
         if (undefined === itemText || itemText === "" || itemText === " ") {
             return false;
             }
