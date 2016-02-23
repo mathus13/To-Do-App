@@ -82,13 +82,10 @@ var app = (function () {
         delNumber = Number(splitKey[1]);
         // if the deleted object was not the last object
         if (splitKey[1] < oldTotal) {
-            console.log("i know the problem is not the if statement");
             for (i = delNumber, k = oldTotal; i < k; i++) {
                 j = i + 1;
                 targetKey = 'todo_'+j;
-                console.log("target key: "+targetKey);
                 newKey = 'todo_'+i;
-                console.log("new key: "+newKey);
                 //replace todo object
                 todos[newKey] = {};
                 todos[newKey].key = newKey;
