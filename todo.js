@@ -7,7 +7,8 @@ var app = (function () {
         todoCounter = Object.keys(todos).length;
         return todoCounter;
     }
-    itsTimeToMakeTheDonuts = function (todo_key, itemText) {
+    //creates objects
+    createObject = function (todo_key, itemText) {
         todos[todo_key] = {};
         todos[todo_key].key = todo_key;
         todos[todo_key].listed = false;
@@ -15,7 +16,7 @@ var app = (function () {
         todos[todo_key].todoText = itemText;
     };
     //creates the dom elements and assignes properties
-    doTheThing = function (todo_key, todoText) {
+    createElements = function (todo_key, todoText) {
         //create elements
         var listItem = document.createElement("li"),
             select = document.createElement("select"),
@@ -66,28 +67,38 @@ var app = (function () {
         listItem.appendChild(textSpan);
         return delButton.dataset.key, checkbox.dataset.key, select.dataset.key, textSpan.dataset.key;
     };
-    //reassigns keys todo objects and dom elements after deleting a single element
-    locksmith = function (deletedKey, newTotal) {
+    //reassigns keys to todo objects and dom elements after deletion
+    rekey = function (deletedKey, newTotal) {
         //creates new key from old key and checks todos length
-        var i, splitKey, newTargetNum, newKey,
+        var splitKey, delNumber, targetKey, newKey, element,
+        oldTotal = newTotal + 1;        
         splitKey = deletedKey.split("_"),
-        //rekey objects / elements if the deleted todo !== todos length (ie not the last one created)
-        if (splitKey[1] < todoCounter) {
-            //for (i = splitKey, ) {
-                newKey = deletedKey,
-                newTargetNum = Number(splitKey[1])+1,
-                newTarget = 'todo_'+newKeyNum;
-                //rekey todo object
-
-                //rekey elements
-
-                //update elements id
-
-            //};
+        delNumber = Number(splitKey[1]);
+        //rekey objects / elements if the deleted todo key < the previous total(ie not the last one)
+        if (splitKey[1] < oldTotal) {
+            console.log("deleted: "+delNumber+" old total: "+oldTotal);
+            for (var i = delNumber, j = i + 1, k = oldTotal; i === k; i++) {
+                console.log("for loop is working");
+                targetKey = 'todo_'+j;
+                newKey = 'todo_'+i;
+                console.log(targetKey);
+                console.log(newKey);
+                //replace todo object
+                todos[newKey] = {};
+                todos[newKey].key = newKey;
+                todos[newKey].listed = todos[targetKey].listed;
+                todos[newKey].priority = todos[targetKey].priority;
+                todos[newKey].todoText = todos[targetKey].todoText;
+                delete todos[targetKey];
+                //update element key and ID
+                element = getElementById(targetKey);
+                element.dataset.key = newKey;
+                element.id = newKey;
+            };
         };
     };
     //assigns css class based on priority
-    casteSystem = function (targetKey, todoPriority){
+    setPriority = function (targetKey, todoPriority){
         var targetSpan = document.getElementById('span_'+targetKey),
             targetLi = document.getElementById('listItem_'+targetKey);
         //changes priority of selected todo to value from select 
@@ -116,8 +127,15 @@ var app = (function () {
                 alert("oops you bwoke it");
         };
     };
+    //removes todo objects
+    removeObject = function (targetKey) {
+        delete todos[targetKey];
+        console.log("counter before re key: "+todoCounter);
+        updateCounter();
+        rekey(targetKey, todoCounter);
+    };
     //removes dom elements - pass reorder as true when reordering
-    delteted = function (targetKey, reorder) {
+    removeElements = function (targetKey, reorder) {
         var element = document.getElementById('listItem_'+targetKey);
         while (element.firstChild) {
             element.removeChild(element.firstChild);
@@ -125,15 +143,8 @@ var app = (function () {
         };
         console.log("removed elements for "+targetKey);
         todos[targetKey].listed = false;
-        //removes todo objects
-        deltaco = function (targetKey) {
-            delete todos[targetKey];
-            console.log("counter before re key"+todoCounter);
-            updateCounter();
-            locksmith (targetKey, todoCounter);
-        };
         if (reorder === false) {
-            deltaco (targetKey);
+            removeObject(targetKey);
         };
     };    
     //reorders dom elements after deletion
@@ -145,8 +156,8 @@ var app = (function () {
                 listing = todos['todo_'+i].listed;
                 priorityCheck = todos['todo_'+i].priority;
                 if (listing === false && priorityCheck === k) {
-                    doTheThing(todo_key, todoText);
-                    casteSystem(todo_key, k);
+                    createElements(todo_key, todoText);
+                    setPriority(todo_key, k);
                 };
             };
         };
@@ -162,15 +173,12 @@ var app = (function () {
             if (event.which === 13) {
                 // to be added: if end counter is 0 add todo objects from local storage
                 updateCounter();
-                console.log("counter before creation: "+todoCounter);
                 keyAssignment = todoCounter + 1;
-                console.log("key assigned: "+keyAssignment);
                 todo_key = 'todo_' + keyAssignment;
-                console.log("created "+todo_key);
-                itsTimeToMakeTheDonuts(todo_key, itemText);
+                createObject(todo_key, itemText);
                 //update counter after creation
                 updateCounter();
-                doTheThing(todo_key, todoText);
+                createElements(todo_key, todoText);
                 document.getElementById("inputText").value = "";
         };
     };
@@ -180,7 +188,7 @@ var app = (function () {
             //on click for delete button
             if(e.target.className == "button_delete") {
                 console.log("del button clicked "+e.target.dataset.key);
-                delteted(e.target.dataset.key, false);
+                removeElements(e.target.dataset.key, false);
             };
         });
     //check box identity check
@@ -197,7 +205,7 @@ var app = (function () {
                 console.log("select clicked: "+e.target.dataset.key);
                 var targetKey = e.target.dataset.key,
                     todoPriority = e.target.value;
-                casteSystem(targetKey, todoPriority);
+                setPriority(targetKey, todoPriority);
             };
         });    
     //span identity check on click
