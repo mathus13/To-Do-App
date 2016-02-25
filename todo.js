@@ -3,8 +3,9 @@
 var app = (function () {
     var todoCounter,
         inputText = document.getElementById("inputText"),
-        todos = {};
-    // creates the to-do items
+        todos = {},
+        deletedTodos = {};
+    // updates the counter
     function updateCounter() {
         todoCounter = Object.keys(todos).length;
         return todoCounter;
@@ -17,13 +18,19 @@ var app = (function () {
         todos[todo_key].priority = 0;
         todos[todo_key].todoText = itemText;
         todos[todo_key].completed = false;
+        todos[todo_key].prevPriority = null;
     }
-    // assigns css class based on priority
+    // sets priority value from select and assigns css class
     function setPriority(targetKey, todoPriority) {
         var targetSpan = document.getElementById('span_' + targetKey),
             targetLi = document.getElementById('listItem_' + targetKey);
         // changes priority of selected to-do to value from select
         switch (todoPriority) {
+        case '-1':
+            todos[targetKey].priority = -1;
+            targetSpan.className = "span_todo-text-completed";
+            targetLi.className = "list-item_default";
+            break;
         case '0':
             todos[targetKey].priority = 0;
             targetSpan.className = "span_todo-text-default";
@@ -53,13 +60,13 @@ var app = (function () {
         // create elements
         var todoPriority,
             listItem = document.createElement("li"),
+            delButton = document.createElement("button"),
+            checkbox = document.createElement("input"),
             select = document.createElement("select"),
             selectOpt0 = document.createElement("option"),
             selectOpt1 = document.createElement("option"),
             selectOpt2 = document.createElement("option"),
             selectOpt3 = document.createElement("option"),
-            delButton = document.createElement("button"),
-            checkbox = document.createElement("input"),
             textSpan = document.createElement("span");
         // listItem properties
         listItem.dataset.key = todo_key;
@@ -100,6 +107,7 @@ var app = (function () {
         select.appendChild(selectOpt3);
         listItem.appendChild(textSpan);
         if (todos[todo_key].completed === true) {
+            // checks checkbox is extant object is completed
             var element = document.getElementById("checkbox_" + todo_key);
             element.checked = true;
         }
@@ -109,21 +117,20 @@ var app = (function () {
             setPriority(todo_key, todoPriority);
         }
     }
-    // sets completed property
+    // sets completed property and assigns css class
     function setCompleted(targetKey, checked) {
         var element,
             todoPriority;
         if (todos[targetKey].completed === false && checked === true) {
             todos[targetKey].completed = true;
-            element = document.getElementById('span_'+targetKey);
-            element.className = "span_todo-text-completed";
-            element = document.getElementById('listItem_'+targetKey);
-            element.className = "list-item_default";
+            todos[targetKey].prevPriority = todos[targetKey].priority;
+            setPriority(targetKey, "-1");
         } else {
             if (todos[targetKey].completed === true && checked === false) {
                 todos[targetKey].completed = false;
-                todoPriority = todos[targetKey].priority.toString();
+                todoPriority = todos[targetKey].prevPriority.toString();
                 setPriority(targetKey, todoPriority);
+                todos[targetKey].prevPriority = null;
             }
         }
     }
@@ -144,17 +151,17 @@ var app = (function () {
             removeObject(targetKey);
         }
     }
-    // lists to-dos
-    function listTodos(todo_key, todoText) {
+    // reorder to-dos
+    function reorderTodos(todo_key, todoText) {
         var i,
             j,
             k,
             listing,
             priorityCheck;
         // lists to-dos in order of priority (3, 2, 1, 0)
-        for (k = 3; k < 0; k--) {
+        for (k = 3; k > -2; k--) {
+            j = Object.keys(todos).length + 1;
             for (i = 1; i < j; i++) {
-                j = Object.keys(todos).length + 1;
                 listing = todos['todo_' + i].listed;
                 priorityCheck = todos['todo_' + i].priority;
                 if (listing === false && priorityCheck === k) {
