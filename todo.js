@@ -22,7 +22,6 @@ var app = (function () {
     function setPriority(targetKey, todoPriority) {
         var targetSpan = document.getElementById('span_' + targetKey),
             targetLi = document.getElementById('listItem_' + targetKey);
-         console.log(todoPriority);
         // changes priority of selected to-do to value from select
         switch (todoPriority) {
         case '0':
@@ -48,7 +47,7 @@ var app = (function () {
         default:
             alert("oops you bwoke it");
         }
-    }    
+    }
     // creates the DOM elements and assignes properties
     function createElements(todo_key) {
         // create elements
@@ -112,7 +111,21 @@ var app = (function () {
     }
     // sets completed property
     function setCompleted(targetKey, checked) {
-        // not finished
+        var element,
+            todoPriority;
+        if (todos[targetKey].completed === false && checked === true) {
+            todos[targetKey].completed = true;
+            element = document.getElementById('span_'+targetKey);
+            element.className = "span_todo-text-completed";
+            element = document.getElementById('listItem_'+targetKey);
+            element.className = "list-item_default";
+        } else {
+            if (todos[targetKey].completed === true && checked === false) {
+                todos[targetKey].completed = false;
+                todoPriority = todos[targetKey].priority.toString();
+                setPriority(targetKey, todoPriority);
+            }
+        }
     }
     // removes to-do objects
     function removeObject(targetKey) {
