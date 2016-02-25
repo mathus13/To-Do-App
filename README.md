@@ -9,6 +9,10 @@ The required functionality includes the ability to ADD, EDIT, DELTE & PRIORITIZE
 To-do items are added by entering text into the input field and pressing enter
 
 To-do items are prioritized by selecting a value on the dropdown menu (3, 2 or 1)
-Priority levels are represented by different colors (3 red, 2 orange, 1 yellow & Null gray)
+Priority levels are represented by different colors (3 red, 2 orange, 1 yellow & 0 gray)
+
+To-do items are marked for completion by checking the check box, completed to-do items are identified by strikethrough text
+
+To-do items are deleted by pressing the red button
 
 see Issues: Planned Changes for more information on things to come
