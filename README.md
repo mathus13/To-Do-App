@@ -2,6 +2,8 @@
 
 ITQ is a simple to do app in the works assigned to me as a challange to learn JS / HTML / CSS
 
+Because I am a glutton for punishment, for the first iteration I will be using vanilla JS
+
 The required functionality includes the ability to ADD, EDIT, DELTE & PRIORITIZE to-do items 
 
 To-do items are added by entering text into the input field and pressing enter
