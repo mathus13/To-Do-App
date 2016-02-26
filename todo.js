@@ -22,7 +22,7 @@ var app = (function () {
     }
     // sets priority value from select and assigns css class
     function setPriority(targetKey, todoPriority, reorder) {
-        var targetSpan = document.getElementById('span_' + targetKey),
+        var targetSpan = document.getElementById('spanText_' + targetKey),
             targetLi = document.getElementById('listItem_' + targetKey);
         // changes priority of selected to-do to value from select
         switch (todoPriority) {
@@ -87,15 +87,15 @@ var app = (function () {
             selectOpt1 = document.createElement("option"),
             selectOpt2 = document.createElement("option"),
             selectOpt3 = document.createElement("option"),
-            textSpan = document.createElement("span");
+            spanText = document.createElement("span");
         // listItem properties
         listItem.dataset.key = todo_key;
-        listItem.id = "listItem_" + todo_key;
+        listItem.id = 'listItem_' + todo_key;
         todos[todo_key].listed = true;
         // (priority level) select properties
         select.dataset.key = todo_key;
         select.className = "select";
-        select.id = "select_" + todo_key;
+        select.id = 'select_' + todo_key;
         selectOpt0.value = 0;
         selectOpt0.textContent = 0;
         selectOpt1.textContent = 1;
@@ -104,16 +104,16 @@ var app = (function () {
         // (delete) button properties
         delButton.dataset.key = todo_key;
         delButton.className = "button_delete";
-        delButton.id = "delButton_" + todo_key;
+        delButton.id = 'delButton_' + todo_key;
         // (completed) checkbox properties
         checkbox.dataset.key = todo_key;
         checkbox.type = "checkbox";
         checkbox.className = "checkbox";
-        checkbox.id = "checkbox_" + todo_key;
+        checkbox.id = 'checkbox_' + todo_key;
         // (to do text) span properties
-        textSpan.dataset.key = todo_key;
-        textSpan.id = 'span_' + todo_key;
-        textSpan.textContent = todos[todo_key].todoText;
+        spanText.dataset.key = todo_key;
+        spanText.id = 'spanText_' + todo_key;
+        spanText.textContent = todos[todo_key].todoText;
         // append elements
         todoList.appendChild(listItem);
         listItem.appendChild(delButton);
@@ -123,10 +123,10 @@ var app = (function () {
         select.appendChild(selectOpt1);
         select.appendChild(selectOpt2);
         select.appendChild(selectOpt3);
-        listItem.appendChild(textSpan);
+        listItem.appendChild(spanText);
         if (todos[todo_key].completed === true) {
             // checks checkbox is extant object is completed
-            document.getElementById("checkbox_" + todo_key).checked = true;
+            document.getElementById('checkbox_' + todo_key).checked = true;
         }
         // invoke setPriority to assign span and listItem classes
         todoPriority = todos[todo_key].priority.toString();
@@ -181,7 +181,30 @@ var app = (function () {
             }
         }
     }
-    // function execution triggered by pressing enter in input field
+    // creates input field to edit to-do text
+    function createEditInput (targetKey){
+        document.getElementById('spanText_' + targetKey).remove();
+        var inputEdit =  document.createElement("input");
+        inputEdit.type = "text";
+        inputEdit.Id = 'inputEdit_'+targetKey;
+        inputEdit.className = "inputEdit";
+        inputEdit.dataset.key = targetKey;
+        inputEdit.value = todos[targetKey].todoText;
+        document.getElementById('listItem_' + targetKey).appendChild(inputEdit);
+        inputEdit.focus();
+    }
+    function createEditSpan (targetKey, e) {
+        todos[targetKey].todoText = e.target.value;
+        console.log(e.target.value);
+        e.target.remove();
+        var spanText = document.createElement("span");
+        spanText.dataset.key = targetKey;
+        spanText.id = 'spanText_' + targetKey;
+        spanText.textContent = todos[targetKey].todoText;
+        document.getElementById('listItem_' + targetKey).appendChild(spanText);
+        setPriority(targetKey, todos[targetKey].priority, false);
+    }
+    // function execution triggered by pressing enter on inputText field
     inputText.onkeyup = function (event) {
         var keyAssignment,
             todo_key,
@@ -191,7 +214,6 @@ var app = (function () {
             return false;
         }
         if (event.which === 13) {
-            // to be added: if end counter is 0 add to-do objects from local storage
             updateCounter();
             keyAssignment = todoCounter + 1;
             todo_key = 'todo_' + keyAssignment;
@@ -204,15 +226,13 @@ var app = (function () {
     };
     // delete button event listener on click
     document.getElementById("todoList").addEventListener("click", function (e) {
-        // on click for delete button
         if (e.target.className === "button_delete") {
             console.log("del button clicked " + e.target.dataset.key);
             removeElements(e.target.dataset.key, false);
         }
     });
-    // check box identity check
+    // check box event listener on click
     document.getElementById("todoList").addEventListener("click", function (e) {
-        // on click for checkbox
         if (e.target.className === "checkbox") {
             console.log("checkbox clicked: " + e.target.dataset.key);
             setCompleted(e.target.dataset.key, e.target.checked);
@@ -220,18 +240,23 @@ var app = (function () {
     });
     // select event listener on change
     document.getElementById("todoList").addEventListener("change", function (e) {
-        // on change for select
         if (e.target.className === "select") {
             console.log("select clicked: " + e.target.dataset.key);
-            console.log("select clicked: " + e.target.id);
             setPriority(e.target.dataset.key, e.target.value, true);
         }
     });
-    // span identity check on click
-    document.getElementById("todoList").addEventListener("click", function (e) {
-        // on click for span
-        if (e.target.className === "span_todo-text-default" || e.target.className === "span_todo-text-p1" || e.target.className === "span_todo-text-p2" || e.target.className === "span_todo-text-p3") {
-            console.log("textSpan clicked: " + e.target.dataset.key);
+    // span event listener on double click
+    document.getElementById("todoList").addEventListener("dblclick", function (e) {
+        if (e.target.className != "span_todo-text-completed") {
+            console.log("spanText clicked: " + e.target.dataset.key);
+            createEditInput(e.target.dataset.key);
+        }
+    });
+    document.getElementById("todoList").addEventListener("keyup", function (e) {
+        if (event.which === 13) {
+            if (e.target.className === "inputEdit") {
+                createEditSpan(e.target.dataset.key, e);
+            }
         }
     });
 }());
