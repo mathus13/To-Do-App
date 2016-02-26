@@ -21,7 +21,7 @@ var app = (function () {
         todos[todo_key].prevPriority = null;
     }
     // sets priority value from select and assigns css class
-    function setPriority(targetKey, todoPriority) {
+    function setPriority(targetKey, todoPriority, reorder) {
         var targetSpan = document.getElementById('span_' + targetKey),
             targetLi = document.getElementById('listItem_' + targetKey);
         // changes priority of selected to-do to value from select
@@ -30,33 +30,48 @@ var app = (function () {
             todos[targetKey].priority = -1;
             targetSpan.className = "span_todo-text-completed";
             targetLi.className = "list-item_default";
+            if (reorder === true) {
+                reorderElements();
+            }
             break;
         case '0':
             todos[targetKey].priority = 0;
             targetSpan.className = "span_todo-text-default";
             targetLi.className = "list-item_default";
+            if (reorder === true) {
+                reorderElements();
+            }
             break;
         case '1':
-            todos[targetKey].priority = todoPriority;
+            todos[targetKey].priority = 1;
             targetSpan.className = "span_todo-text-p1";
             targetLi.className = "list-item_todo-p1";
+            if (reorder === true) {
+                reorderElements();
+            }
             break;
         case '2':
-            todos[targetKey].priority = todoPriority;
+            todos[targetKey].priority = 2;
             targetSpan.className = "span_todo-text-p2";
             targetLi.className = "list-item_todo-p2";
+            if (reorder === true) {
+                reorderElements();
+            }
             break;
         case '3':
-            todos[targetKey].priority = todoPriority;
+            todos[targetKey].priority = 3;
             targetSpan.className = "span_todo-text-p3";
             targetLi.className = "list-item_todo-p3";
+            if (reorder === true) {
+                reorderElements();
+            }
             break;
         default:
             alert("oops you bwoke it");
         }
     }
     // creates the DOM elements and assignes properties
-    function createElements(todo_key) {
+    function createElements(todo_key, reorder) {
         // create elements
         var todoPriority,
             listItem = document.createElement("li"),
@@ -70,7 +85,6 @@ var app = (function () {
             textSpan = document.createElement("span");
         // listItem properties
         listItem.dataset.key = todo_key;
-        listItem.className = "list-item_default";
         listItem.id = "listItem_" + todo_key;
         todos[todo_key].listed = true;
         // (priority level) select properties
@@ -93,7 +107,6 @@ var app = (function () {
         checkbox.id = "checkbox_" + todo_key;
         // (to do text) span properties
         textSpan.dataset.key = todo_key;
-        textSpan.className = "span_todo-text-default";
         textSpan.id = 'span_' + todo_key;
         textSpan.innerText = todos[todo_key].todoText;
         // append elements
@@ -111,11 +124,10 @@ var app = (function () {
             var element = document.getElementById("checkbox_" + todo_key);
             element.checked = true;
         }
-        if (todos[todo_key].priority != 0) {
-            // pass priority value of extant object as a string
-            todoPriority = todos[todo_key].priority.toString();
-            setPriority(todo_key, todoPriority);
-        }
+        // invoke setPriority to assign span and listItem classes
+        todoPriority = todos[todo_key].priority.toString();
+        console.log(reorder);
+        setPriority(todo_key, todoPriority, reorder);
     }
     // sets completed property and assigns css class
     function setCompleted(targetKey, checked) {
@@ -124,12 +136,12 @@ var app = (function () {
         if (todos[targetKey].completed === false && checked === true) {
             todos[targetKey].completed = true;
             todos[targetKey].prevPriority = todos[targetKey].priority;
-            setPriority(targetKey, "-1");
+            setPriority(targetKey, "-1", true);
         } else {
             if (todos[targetKey].completed === true && checked === false) {
                 todos[targetKey].completed = false;
                 todoPriority = todos[targetKey].prevPriority.toString();
-                setPriority(targetKey, todoPriority);
+                setPriority(targetKey, todoPriority, true);
                 todos[targetKey].prevPriority = null;
             }
         }
@@ -151,22 +163,19 @@ var app = (function () {
             removeObject(targetKey);
         }
     }
-    // reorder to-dos
-    function reorderTodos(todo_key, todoText) {
-        var i,
-            j,
-            k,
-            listing,
-            priorityCheck;
-        // lists to-dos in order of priority (3, 2, 1, 0)
-        for (k = 3; k > -2; k--) {
-            j = Object.keys(todos).length + 1;
-            for (i = 1; i < j; i++) {
-                listing = todos['todo_' + i].listed;
-                priorityCheck = todos['todo_' + i].priority;
-                if (listing === false && priorityCheck === k) {
-                    createElements(todo_key, todoText);
-                    setPriority(todo_key, k);
+    // reorders DOM elements when priority or completed values change
+    function reorderElements() {
+        var i;
+        // remove all DOM elements
+        console.log("test 1")
+        // recreate DOM elements in order of priority (3, 2, 1, 0, -1)
+        for (i = 3; i > -2; i--) {
+            for (var todoByKey in todos) {
+                if (todos.hasOwnProperty(todoByKey) && todos[todoByKey].priority === i) {
+                    // remove elements, pass reorder argument as true to retain objects
+                    removeElements(todoByKey, true);
+                    // recreate elements, pass reorder argument as false to prevent infinite loop
+                    createElements(todoByKey, false);
                 }
             }
         }
@@ -186,9 +195,9 @@ var app = (function () {
             keyAssignment = todoCounter + 1;
             todo_key = 'todo_' + keyAssignment;
             createObject(todo_key, itemText);
-            // pdate counter after creation
+            // update counter after creation
             updateCounter();
-            createElements(todo_key);
+            createElements(todo_key, false);
             document.getElementById("inputText").value = "";
         }
     };
@@ -213,7 +222,7 @@ var app = (function () {
         // on change for select
         if (e.target.className === "select") {
             console.log("select clicked: " + e.target.dataset.key);
-            setPriority(e.target.dataset.key, e.target.value);
+            setPriority(e.target.dataset.key, e.target.value, true);
         }
     });
     // span identity check on click
