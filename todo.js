@@ -97,10 +97,10 @@ var app = (function () {
         select.className = "select";
         select.id = "select_" + todo_key;
         selectOpt0.value = 0;
-        selectOpt0.innerText = 0;
-        selectOpt1.innerText = 1;
-        selectOpt2.innerText = 2;
-        selectOpt3.innerText = 3;
+        selectOpt0.textContent = 0;
+        selectOpt1.textContent = 1;
+        selectOpt2.textContent = 2;
+        selectOpt3.textContent = 3;
         // (delete) button properties
         delButton.dataset.key = todo_key;
         delButton.className = "button_delete";
@@ -113,7 +113,7 @@ var app = (function () {
         // (to do text) span properties
         textSpan.dataset.key = todo_key;
         textSpan.id = 'span_' + todo_key;
-        textSpan.innerText = todos[todo_key].todoText;
+        textSpan.textContent = todos[todo_key].todoText;
         // append elements
         todoList.appendChild(listItem);
         listItem.appendChild(delButton);
