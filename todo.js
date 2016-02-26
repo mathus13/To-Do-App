@@ -5,10 +5,10 @@ var app = (function () {
         inputText = document.getElementById("inputText"),
         todos = {},
         deletedTodos = {};
-    // updates the counter
-    function updateCounter() {
+    if (Object.keys(todos).length > 0){
         todoCounter = Object.keys(todos).length;
-        return todoCounter;
+    } else {
+        todoCounter = 0;
     }
     // creates objects
     function createObject(todo_key, itemText) {
@@ -151,7 +151,6 @@ var app = (function () {
     // removes to-do objects
     function removeObject(targetKey) {
         delete todos[targetKey];
-        updateCounter();
     }
     // removes DOM elements - pass reorder as true when reordering
     function removeElements(targetKey, reorder) {
@@ -206,20 +205,16 @@ var app = (function () {
     }
     // function execution triggered by pressing enter on inputText field
     inputText.onkeyup = function (event) {
-        var keyAssignment,
-            todo_key,
+        var todo_key,
             itemText = inputText.value;
         // if input text value is not undefined or one space, proceed on enter key
         if (undefined === itemText || itemText === "" || itemText === " ") {
             return false;
         }
         if (event.which === 13) {
-            updateCounter();
-            keyAssignment = todoCounter + 1;
-            todo_key = 'todo_' + keyAssignment;
+            todoCounter += 1;
+            todo_key = 'todo_' + todoCounter;
             createObject(todo_key, itemText);
-            // update counter after creation
-            updateCounter();
             createElements(todo_key, false);
             document.getElementById("inputText").value = "";
         }
@@ -257,6 +252,12 @@ var app = (function () {
             if (e.target.className === "inputEdit") {
                 createEditSpan(e.target.dataset.key, e);
             }
+        }
+    });
+        document.getElementById("todoList").addEventListener("focusout", function (e) {
+        if (e.target.className === "inputEdit") {
+            console.log("comeon");
+            createEditSpan(e.target.dataset.key, e);
         }
     });
 }());
