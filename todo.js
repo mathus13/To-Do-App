@@ -70,9 +70,9 @@ var app = (function () {
             alert("oops you bwoke it");
         }
         if (todos[targetKey].completed === true) {
-            document.getElementById('select_'+targetKey).disabled = true;
+            document.getElementById('select_' + targetKey).disabled = true;
         } else {
-            document.getElementById('select_'+targetKey).disabled = false;
+            document.getElementById('select_' + targetKey).disabled = false;
         }
     }
     // creates the DOM elements and assignes properties
@@ -135,8 +135,7 @@ var app = (function () {
     }
     // sets completed property and assigns css class
     function setCompleted(targetKey, checked) {
-        var element,
-            todoPriority;
+        var todoPriority;
         if (todos[targetKey].completed === false && checked === true) {
             todos[targetKey].completed = true;
             todos[targetKey].prevPriority = todos[targetKey].priority;
@@ -168,18 +167,16 @@ var app = (function () {
     }
     // reorders DOM elements when priority or completed values change
     function reorderElements() {
-        var i;
-        // remove all DOM elements
-        console.log("test 1")
+        var i, todoByKey;
         // recreate DOM elements in order of priority (3, 2, 1, 0, -1)
         for (i = 3; i > -2; i--) {
-            for (var todoByKey in todos) {
+            for (todoByKey in todos) {
                 if (todos.hasOwnProperty(todoByKey) && todos[todoByKey].priority == i) {
                     // remove elements, pass reorder argument as true to retain objects
                     removeElements(todoByKey, true);
                     // recreate elements, pass reorder argument as false to prevent infinite loop
                     createElements(todoByKey, false);
-                    document.getElementById('select_'+todoByKey). value = todos[todoByKey].priority;
+                    document.getElementById('select_' + todoByKey).value = todos[todoByKey].priority;
                 }
             }
         }
