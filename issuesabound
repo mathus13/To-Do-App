@@ -4,12 +4,23 @@ var app = (function () {
     var todoCounter,
         inputText = document.getElementById("inputText"),
         todos = {},
-        deletedTodos = {};
-    if (Object.keys(todos).length > 0){
-        todoCounter = Object.keys(todos).length;
-    } else {
-        todoCounter = 0;
+        todoCounter = 0,
+        editEventList = ["keyup", "focusout"];
+        
+    if (localStorage.todoCounter) {
+        if (localStorage.todoCounter > 0 && localStorage.todos ) {
+            console.log("loading items in storage");
+            todoCounter = localStorage.getItem("todoCounter"),
+            todos = JSON.parse(localStorage.getItem('todos'));
+            console.log("object: " + todos);
+            console.log("counter: " + todoCounter)
+        } else {
+            console.log("no items in storage");
+            todoCounter = 0;
+            todos = {};
+        }
     }
+
     // creates objects
     function createObject(todo_key, itemText) {
         todos[todo_key] = {};
@@ -130,8 +141,8 @@ var app = (function () {
         }
         // invoke setPriority to assign span and listItem classes
         todoPriority = todos[todo_key].priority.toString();
-        console.log(reorder);
         setPriority(todo_key, todoPriority, reorder);
+        console.log("counter: " + todoCounter + " key: " + todo_key);
     }
     // sets completed property and assigns css class
     function setCompleted(targetKey, checked) {
@@ -193,17 +204,28 @@ var app = (function () {
         inputEdit.focus();
     }
     function createEditSpan (targetKey, e) {
-        todos[targetKey].todoText = e.target.value;
-        console.log(e.target.value);
-        e.target.remove();
-        var spanText = document.createElement("span");
-        spanText.dataset.key = targetKey;
-        spanText.id = 'spanText_' + targetKey;
-        spanText.textContent = todos[targetKey].todoText;
-        document.getElementById('listItem_' + targetKey).appendChild(spanText);
-        setPriority(targetKey, todos[targetKey].priority, false);
+        if (document.getElementById('listItem_' + targetKey).contains(e.target)) {
+            todos[targetKey].todoText = e.target.value;
+            console.log(e.target.value);
+            e.target.remove();
+            var spanText = document.createElement("span");
+            spanText.dataset.key = targetKey;
+            spanText.id = 'spanText_' + targetKey;
+            spanText.textContent = todos[targetKey].todoText;
+            document.getElementById('listItem_' + targetKey).appendChild(spanText);
+            setPriority(targetKey, todos[targetKey].priority, false);
+        }
     }
-    // function execution triggered by pressing enter on inputText field
+    // (clear) button event on click
+    clearLocal.onclick = function (event) {
+        console.log(localStorage.todos);
+        console.log(localStorage.todoCounter);
+        window.localStorage.clear();
+        console.log(localStorage.todos);
+        console.log(localStorage.todoCounter);
+        console.log("whooosh");
+    }
+    // (to_do text) input event on keyup - Enter
     inputText.onkeyup = function (event) {
         var todo_key,
             itemText = inputText.value;
@@ -219,7 +241,7 @@ var app = (function () {
             document.getElementById("inputText").value = "";
         }
     };
-    // delete button event listener on click
+    // (delete) button event listener on click
     document.getElementById("todoList").addEventListener("click", function (e) {
         if (e.target.className === "button_delete") {
             console.log("del button clicked " + e.target.dataset.key);
@@ -247,17 +269,29 @@ var app = (function () {
             createEditInput(e.target.dataset.key);
         }
     });
+    // (edit) input event listener on keyup - Enter
     document.getElementById("todoList").addEventListener("keyup", function (e) {
         if (event.which === 13) {
             if (e.target.className === "inputEdit") {
+                console.log("invoke createEditSpan on keyup-Enter");
                 createEditSpan(e.target.dataset.key, e);
+                e.stopPropagation()
             }
         }
     });
-        document.getElementById("todoList").addEventListener("focusout", function (e) {
-        if (e.target.className === "inputEdit") {
-            console.log("comeon");
-            createEditSpan(e.target.dataset.key, e);
+    // (edit) input event listener on loss of focus
+    document.getElementById("todoList").addEventListener("focusout", function (e) {
+        if (e.target.className === "inputEdit" ) {
+            console.log("invoke createEditSpan on focusout");
+            if(e.target) {
+                alert("You must finish this form and press Enter to continue, if you already did that... I'm sorry, I don't know how to deal with multiple event handlers on the same object, stopImmediatePropagation() and stopPropagation aren't preventing further events from bubbling up on the same DOM element and any results from checks to determine if the child element is or isn't a child element of it's parent returns contradictory results so it's not like I can use those as an if condition to prevent a duplicate invocation of this function, I tried, okay, I tried. Just click Okay or press Enter one more time and we'll get through this together, I Promise.");
+                e.target.focus();
+            }
         }
+    });
+    // window event listener on close
+    window.addEventListener("unload", function (e) {
+        localStorage.setItem('todosString', JSON.stringify(todos));
+        localStorage.setItem('todoCounter', todoCounter);
     });
 }());
