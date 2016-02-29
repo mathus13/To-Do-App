@@ -193,15 +193,17 @@ var app = (function () {
         inputEdit.focus();
     }
     function createEditSpan (targetKey, e) {
-        todos[targetKey].todoText = e.target.value;
-        console.log(e.target.value);
-        e.target.remove();
-        var spanText = document.createElement("span");
-        spanText.dataset.key = targetKey;
-        spanText.id = 'spanText_' + targetKey;
-        spanText.textContent = todos[targetKey].todoText;
-        document.getElementById('listItem_' + targetKey).appendChild(spanText);
-        setPriority(targetKey, todos[targetKey].priority, false);
+        if (e.target) {
+            todos[targetKey].todoText = e.target.value;
+            console.log(e.target.value);
+            e.target.remove();
+            var spanText = document.createElement("span");
+            spanText.dataset.key = targetKey;
+            spanText.id = 'spanText_' + targetKey;
+            spanText.textContent = todos[targetKey].todoText;
+            document.getElementById('listItem_' + targetKey).appendChild(spanText);
+            setPriority(targetKey, todos[targetKey].priority, false);
+        }
     }
     // function execution triggered by pressing enter on inputText field
     inputText.onkeyup = function (event) {
@@ -248,15 +250,12 @@ var app = (function () {
         }
     });
     document.getElementById("todoList").addEventListener("keyup", function (e) {
-        if (event.which === 13) {
-            if (e.target.className === "inputEdit") {
-                createEditSpan(e.target.dataset.key, e);
-            }
+        if (event.which === 13 && e.target.className === "inputEdit") {
+            e.target.blur();
         }
     });
-        document.getElementById("todoList").addEventListener("focusout", function (e) {
+    document.getElementById("todoList").addEventListener("focusout", function (e) {
         if (e.target.className === "inputEdit") {
-            console.log("comeon");
             createEditSpan(e.target.dataset.key, e);
         }
     });
