@@ -2,19 +2,24 @@
 
 var app = (function () {
     var todoCounter,
+        todos,
         inputText = document.getElementById("inputText"),
-        todos = {},
         deletedTodos = {};
-    if (Object.keys(todos).length > 0){
-        todoCounter = Object.keys(todos).length;
+    if (localStorage.localCounter && localStorage.localCounter > 0) {
+        console.log("counter found: " + localStorage.localCounter);
+        console.log("todos found:" + localStorage.localTodos)
+        todoCounter = localStorage.localCounter;
+        todos = JSON.parse(localStorage.localTodos);
+        console.log(todos);
+        reorderElements(true);
     } else {
+        console.log("no counter found or counter is 0")
         todoCounter = 0;
     }
     // creates objects
     function createObject(todo_key, itemText) {
         todos[todo_key] = {};
         todos[todo_key].key = todo_key;
-        todos[todo_key].listed = false;
         todos[todo_key].priority = 0;
         todos[todo_key].todoText = itemText;
         todos[todo_key].completed = false;
@@ -31,7 +36,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-completed";
             targetLi.className = "list-item_default";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '0':
@@ -39,7 +44,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-default";
             targetLi.className = "list-item_default";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '1':
@@ -47,7 +52,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-p1";
             targetLi.className = "list-item_todo-p1";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '2':
@@ -55,7 +60,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-p2";
             targetLi.className = "list-item_todo-p2";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '3':
@@ -63,7 +68,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-p3";
             targetLi.className = "list-item_todo-p3";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         default:
@@ -91,7 +96,6 @@ var app = (function () {
         // listItem properties
         listItem.dataset.key = todo_key;
         listItem.id = 'listItem_' + todo_key;
-        todos[todo_key].listed = true;
         // (priority level) select properties
         select.dataset.key = todo_key;
         select.className = "select";
@@ -159,20 +163,21 @@ var app = (function () {
             element.removeChild(element.firstChild);
             element.remove();
         }
-        todos[targetKey].listed = false;
         if (reorder === false) {
             removeObject(targetKey);
         }
     }
-    // reorders DOM elements when priority or completed values change
-    function reorderElements() {
+    // reorders DOM elements (priority / completed) , pass retrieve as true for localStorage calls
+    function reorderElements(retrieve) {
         var i, todoByKey;
         // recreate DOM elements in order of priority (3, 2, 1, 0, -1)
         for (i = 3; i > -2; i--) {
             for (todoByKey in todos) {
                 if (todos.hasOwnProperty(todoByKey) && todos[todoByKey].priority == i) {
-                    // remove elements, pass reorder argument as true to retain objects
-                    removeElements(todoByKey, true);
+                    if (retrieve === false) {
+                        // remove elements, pass reorder argument as true to retain objects
+                        removeElements(todoByKey, true);
+                    }
                     // recreate elements, pass reorder argument as false to prevent infinite loop
                     createElements(todoByKey, false);
                     document.getElementById('select_' + todoByKey).value = todos[todoByKey].priority;
@@ -193,17 +198,15 @@ var app = (function () {
         inputEdit.focus();
     }
     function createEditSpan (targetKey, e) {
-        if (e.target) {
-            todos[targetKey].todoText = e.target.value;
-            console.log(e.target.value);
-            e.target.remove();
-            var spanText = document.createElement("span");
-            spanText.dataset.key = targetKey;
-            spanText.id = 'spanText_' + targetKey;
-            spanText.textContent = todos[targetKey].todoText;
-            document.getElementById('listItem_' + targetKey).appendChild(spanText);
-            setPriority(targetKey, todos[targetKey].priority, false);
-        }
+        todos[targetKey].todoText = e.target.value;
+        console.log(e.target.value);
+        e.target.remove();
+        var spanText = document.createElement("span");
+        spanText.dataset.key = targetKey;
+        spanText.id = 'spanText_' + targetKey;
+        spanText.textContent = todos[targetKey].todoText;
+        document.getElementById('listItem_' + targetKey).appendChild(spanText);
+        setPriority(targetKey, todos[targetKey].priority, false);
     }
     // function execution triggered by pressing enter on inputText field
     inputText.onkeyup = function (event) {
@@ -258,5 +261,9 @@ var app = (function () {
         if (e.target.className === "inputEdit") {
             createEditSpan(e.target.dataset.key, e);
         }
+    });
+    window.addEventListener("unload", function (e) {
+        localStorage.setItem('localTodos', JSON.stringify(todos));
+        localStorage.setItem('localCounter', todoCounter);
     });
 }());
