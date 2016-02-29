@@ -221,11 +221,6 @@ var app = (function () {
             document.getElementById("inputText").value = "";
         }
     };
-    clearStorage.onclick = function (event) {
-        console.log("you hit the reset button");
-        localStorage.setItem('localTodos', {});
-        localStorage.setItem('localCounter', 0);
-    }
     // delete button event listener on click
     document.getElementById("todoList").addEventListener("click", function (e) {
         if (e.target.className === "button_delete") {
