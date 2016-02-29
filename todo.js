@@ -3,13 +3,15 @@
 var app = (function () {
     var todoCounter,
         todos,
+        getCounter,
+        splitCounter,
         inputText = document.getElementById("inputText");
-    if (localStorage.localCounter && localStorage.localCounter > 0) {
+    if (localStorage.localCounter != undefined && localStorage.localCounter > 0) {
         console.log("counter found: " + localStorage.localCounter);
         console.log("todos found:" + localStorage.localTodos)
         getCounter = localStorage.localCounter;
         splitCounter = getCounter.split("_");
-        todoCounter = 'todo_' + splitCounter[1];
+        todoCounter = splitCounter[1];
         todos = JSON.parse(localStorage.localTodos);
         console.log(todos);
         reorderElements(true);
