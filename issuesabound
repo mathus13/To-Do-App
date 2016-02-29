@@ -2,30 +2,24 @@
 
 var app = (function () {
     var todoCounter,
+        todos,
         inputText = document.getElementById("inputText"),
-        todos = {},
-        todoCounter = 0,
-        editEventList = ["keyup", "focusout"];
-        
-    if (localStorage.todoCounter) {
-        if (localStorage.todoCounter > 0 && localStorage.todos ) {
-            console.log("loading items in storage");
-            todoCounter = localStorage.getItem("todoCounter"),
-            todos = JSON.parse(localStorage.getItem('todos'));
-            console.log("object: " + todos);
-            console.log("counter: " + todoCounter)
-        } else {
-            console.log("no items in storage");
-            todoCounter = 0;
-            todos = {};
-        }
+        deletedTodos = {};
+    if (localStorage.localCounter && localStorage.localCounter > 0) {
+        console.log("counter found: " + localStorage.localCounter);
+        console.log("todos found:" + localStorage.localTodos)
+        todoCounter = localStorage.localCounter;
+        todos = JSON.parse(localStorage.localTodos);
+        console.log(todos);
+        reorderElements(true);
+    } else {
+        console.log("no counter found or counter is 0")
+        todoCounter = 0;
     }
-
     // creates objects
     function createObject(todo_key, itemText) {
         todos[todo_key] = {};
         todos[todo_key].key = todo_key;
-        todos[todo_key].listed = false;
         todos[todo_key].priority = 0;
         todos[todo_key].todoText = itemText;
         todos[todo_key].completed = false;
@@ -42,7 +36,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-completed";
             targetLi.className = "list-item_default";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '0':
@@ -50,7 +44,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-default";
             targetLi.className = "list-item_default";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '1':
@@ -58,7 +52,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-p1";
             targetLi.className = "list-item_todo-p1";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '2':
@@ -66,7 +60,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-p2";
             targetLi.className = "list-item_todo-p2";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         case '3':
@@ -74,7 +68,7 @@ var app = (function () {
             targetSpan.className = "span_todo-text-p3";
             targetLi.className = "list-item_todo-p3";
             if (reorder === true) {
-                reorderElements();
+                reorderElements(false);
             }
             break;
         default:
@@ -102,7 +96,6 @@ var app = (function () {
         // listItem properties
         listItem.dataset.key = todo_key;
         listItem.id = 'listItem_' + todo_key;
-        todos[todo_key].listed = true;
         // (priority level) select properties
         select.dataset.key = todo_key;
         select.className = "select";
@@ -141,8 +134,8 @@ var app = (function () {
         }
         // invoke setPriority to assign span and listItem classes
         todoPriority = todos[todo_key].priority.toString();
+        console.log(reorder);
         setPriority(todo_key, todoPriority, reorder);
-        console.log("counter: " + todoCounter + " key: " + todo_key);
     }
     // sets completed property and assigns css class
     function setCompleted(targetKey, checked) {
@@ -170,20 +163,21 @@ var app = (function () {
             element.removeChild(element.firstChild);
             element.remove();
         }
-        todos[targetKey].listed = false;
         if (reorder === false) {
             removeObject(targetKey);
         }
     }
-    // reorders DOM elements when priority or completed values change
-    function reorderElements() {
+    // reorders DOM elements (priority / completed) , pass retrieve as true for localStorage calls
+    function reorderElements(retrieve) {
         var i, todoByKey;
         // recreate DOM elements in order of priority (3, 2, 1, 0, -1)
         for (i = 3; i > -2; i--) {
             for (todoByKey in todos) {
                 if (todos.hasOwnProperty(todoByKey) && todos[todoByKey].priority == i) {
-                    // remove elements, pass reorder argument as true to retain objects
-                    removeElements(todoByKey, true);
+                    if (retrieve === false) {
+                        // remove elements, pass reorder argument as true to retain objects
+                        removeElements(todoByKey, true);
+                    }
                     // recreate elements, pass reorder argument as false to prevent infinite loop
                     createElements(todoByKey, false);
                     document.getElementById('select_' + todoByKey).value = todos[todoByKey].priority;
@@ -204,28 +198,17 @@ var app = (function () {
         inputEdit.focus();
     }
     function createEditSpan (targetKey, e) {
-        if (document.getElementById('listItem_' + targetKey).contains(e.target)) {
-            todos[targetKey].todoText = e.target.value;
-            console.log(e.target.value);
-            e.target.remove();
-            var spanText = document.createElement("span");
-            spanText.dataset.key = targetKey;
-            spanText.id = 'spanText_' + targetKey;
-            spanText.textContent = todos[targetKey].todoText;
-            document.getElementById('listItem_' + targetKey).appendChild(spanText);
-            setPriority(targetKey, todos[targetKey].priority, false);
-        }
+        todos[targetKey].todoText = e.target.value;
+        console.log(e.target.value);
+        e.target.remove();
+        var spanText = document.createElement("span");
+        spanText.dataset.key = targetKey;
+        spanText.id = 'spanText_' + targetKey;
+        spanText.textContent = todos[targetKey].todoText;
+        document.getElementById('listItem_' + targetKey).appendChild(spanText);
+        setPriority(targetKey, todos[targetKey].priority, false);
     }
-    // (clear) button event on click
-    clearLocal.onclick = function (event) {
-        console.log(localStorage.todos);
-        console.log(localStorage.todoCounter);
-        window.localStorage.clear();
-        console.log(localStorage.todos);
-        console.log(localStorage.todoCounter);
-        console.log("whooosh");
-    }
-    // (to_do text) input event on keyup - Enter
+    // function execution triggered by pressing enter on inputText field
     inputText.onkeyup = function (event) {
         var todo_key,
             itemText = inputText.value;
@@ -241,7 +224,7 @@ var app = (function () {
             document.getElementById("inputText").value = "";
         }
     };
-    // (delete) button event listener on click
+    // delete button event listener on click
     document.getElementById("todoList").addEventListener("click", function (e) {
         if (e.target.className === "button_delete") {
             console.log("del button clicked " + e.target.dataset.key);
@@ -269,29 +252,18 @@ var app = (function () {
             createEditInput(e.target.dataset.key);
         }
     });
-    // (edit) input event listener on keyup - Enter
     document.getElementById("todoList").addEventListener("keyup", function (e) {
-        if (event.which === 13) {
-            if (e.target.className === "inputEdit") {
-                console.log("invoke createEditSpan on keyup-Enter");
-                createEditSpan(e.target.dataset.key, e);
-                e.stopPropagation()
-            }
+        if (event.which === 13 && e.target.className === "inputEdit") {
+            e.target.blur();
         }
     });
-    // (edit) input event listener on loss of focus
     document.getElementById("todoList").addEventListener("focusout", function (e) {
-        if (e.target.className === "inputEdit" ) {
-            console.log("invoke createEditSpan on focusout");
-            if(e.target) {
-                alert("You must finish this form and press Enter to continue, if you already did that... I'm sorry, I don't know how to deal with multiple event handlers on the same object, stopImmediatePropagation() and stopPropagation aren't preventing further events from bubbling up on the same DOM element and any results from checks to determine if the child element is or isn't a child element of it's parent returns contradictory results so it's not like I can use those as an if condition to prevent a duplicate invocation of this function, I tried, okay, I tried. Just click Okay or press Enter one more time and we'll get through this together, I Promise.");
-                e.target.focus();
-            }
+        if (e.target.className === "inputEdit") {
+            createEditSpan(e.target.dataset.key, e);
         }
     });
-    // window event listener on close
     window.addEventListener("unload", function (e) {
-        localStorage.setItem('todosString', JSON.stringify(todos));
-        localStorage.setItem('todoCounter', todoCounter);
+        localStorage.setItem('localTodos', JSON.stringify(todos));
+        localStorage.setItem('localCounter', todoCounter);
     });
 }());
