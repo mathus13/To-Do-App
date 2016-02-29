@@ -2,17 +2,18 @@
 
 ITQ is a simple to do app in the works assigned to me as a challange to learn JS / HTML / CSS
 
-Because I am a glutton for punishment, for the first iteration I will be using vanilla JS
+Because I am a glutton for punishment, for the first iteration used vanilla JS
 
-The required functionality includes the ability to ADD, EDIT, DELTE & PRIORITIZE to-do items 
+The required functionality includes the ability to ADD, EDIT, DELTE & PRIORITIZE to-do items and to retain to-do items via localStorage
 
 To-do items are added by entering text into the input field and pressing enter
 
-To-do items are prioritized by selecting a value on the dropdown menu (3, 2 or 1)
-Priority levels are represented by different colors (3 red, 2 orange, 1 yellow & 0 gray)
+  ... prioritized by selecting a value on the dropdown menu (Priority levels are represented by color: 3 red, 2 orange, 1 yellow & 0 gray)
 
-To-do items are marked for completion by checking the check box, completed to-do items are identified by strikethrough text
+  ... marked for completion by checking the check box (completed to-do items are identified by strikethrough text)
 
-To-do items are deleted by pressing the red button
+  ... deleted by pressing the red button
 
-see Issues: Planned Changes for more information on things to come
+bugs have been thoroughly squashed and localStorage is functioning as intended.
+
+Time to do it again with JQuery!
