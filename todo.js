@@ -7,7 +7,9 @@ var app = (function () {
     if (localStorage.localCounter && localStorage.localCounter > 0) {
         console.log("counter found: " + localStorage.localCounter);
         console.log("todos found:" + localStorage.localTodos)
-        todoCounter = localStorage.localCounter;
+        getCounter = localStorage.localCounter;
+        splitCounter = getCounter.split("_");
+        todoCounter = 'todo_' + splitCounter[1];
         todos = JSON.parse(localStorage.localTodos);
         console.log(todos);
         reorderElements(true);
@@ -224,6 +226,10 @@ var app = (function () {
             document.getElementById("inputText").value = "";
         }
     };
+    clearStorage.onclick = function (event) {
+        localStorage.localTodos = {};
+        localStorage.localCounter = 0;
+    }
     // delete button event listener on click
     document.getElementById("todoList").addEventListener("click", function (e) {
         if (e.target.className === "button_delete") {
