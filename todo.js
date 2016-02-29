@@ -3,8 +3,7 @@
 var app = (function () {
     var todoCounter,
         todos,
-        inputText = document.getElementById("inputText"),
-        deletedTodos = {};
+        inputText = document.getElementById("inputText");
     if (localStorage.localCounter && localStorage.localCounter > 0) {
         console.log("counter found: " + localStorage.localCounter);
         console.log("todos found:" + localStorage.localTodos)
@@ -14,7 +13,8 @@ var app = (function () {
         reorderElements(true);
     } else {
         console.log("no counter found or counter is 0")
-        todoCounter = 0;
+        todoCounter = 0,
+        todos = {};
     }
     // creates objects
     function createObject(todo_key, itemText) {
