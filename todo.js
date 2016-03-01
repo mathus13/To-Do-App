@@ -194,6 +194,7 @@ var app = (function () {
         document.getElementById('listItem_' + targetKey).appendChild(inputEdit);
         inputEdit.focus();
     }
+    // removes input field and saves text post edits to object, creates new text span
     function createEditSpan (targetKey, e) {
         todos[targetKey].todoText = e.target.value;
         console.log(e.target.value);
@@ -249,16 +250,19 @@ var app = (function () {
             createEditInput(e.target.dataset.key);
         }
     });
+    // lose focus of input field on key press enter, focusout will bubble
     document.getElementById("todoList").addEventListener("keyup", function (e) {
         if (event.which === 13 && e.target.className === "inputEdit") {
             e.target.blur();
         }
     });
+    // create edit span to update todo text
     document.getElementById("todoList").addEventListener("focusout", function (e) {
         if (e.target.className === "inputEdit") {
             createEditSpan(e.target.dataset.key, e);
         }
     });
+    // automatigically saves counter val and todos {} to localStorage on window close / refresh
     window.addEventListener("unload", function (e) {
         localStorage.setItem('localTodos', JSON.stringify(todos));
         localStorage.setItem('localCounter', todoCounter);
