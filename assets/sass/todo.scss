@@ -1,7 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,700,300);
 $font-family-base: 'Raleway', sans-serif;
 // Import bootstrap and fontawesome
+
+$brand-primary:         #0B4457; // #337ab7
+$brand-success:         #1E570B;
+$brand-info:            #5bc0de;
+$brand-warning:         #440B57;
+$brand-danger:          #571E0B;
 @import "bootstrap";
+
 
 .checkbox {
 	margin-top: 0;
