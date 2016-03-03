@@ -5,9 +5,10 @@ var app = {};
     var todoCounter,
         todos = {},
         byPriority = {},
-        $content = $('div.content'),
+        $content,
         $todosUL,
         $inputText;
+    $content = $('div.content');
     $todosUL = $content.find('#todoList');
     $inputText = $content.find('#inputText');
 
@@ -44,7 +45,7 @@ var app = {};
         }
     }
 
-    // creates the DOM elements and assignes properties
+    // creates the DOM elements and assigns properties - pass reorder as true when reordering
     function createElement(todo_key, reorder) {
         // create elements
         var todoPriority, html;
@@ -78,7 +79,7 @@ var app = {};
         $todosUL.append(html);
         // checks checkbox if item is completed
         if (todos[todo_key].completed === true) {
-            document.getElementById('checkbox_' + todo_key).checked = true;
+            $todosUL.find('checkbox#checkbox_' + todo_key).attr("checked", true);
         }
         // invoke setPriority to assign span and listItem classes
         todoPriority = todos[todo_key].priority.toString();
@@ -93,10 +94,10 @@ var app = {};
             for (todoByKey in todos) {
                 if (todos.hasOwnProperty(todoByKey) && todos[todoByKey].priority == i) {
                     if (retrieve === false) {
-                        // remove elements, pass reorder argument as true to retain objects
+                        // remove elements, passing arg2 (reorder) as true to retain objects
                         removeElements(todoByKey, true);
                     }
-                    // recreate elements, pass reorder argument as false to prevent infinite loop
+                    // recreate elements, passing arg2 (reorder) as false to prevent infinite loop
                     createElement(todoByKey, false);
                     $todosUL.find('select#select_' + todoByKey).val(todos[todoByKey].priority);
                 }
@@ -104,7 +105,7 @@ var app = {};
         }
     }
 
-    // sets priority value from select and assigns css class
+    // sets priority value if changed via select and assigns css classes
     function setPriority(targetKey, todoPriority, reorder) {
         var targetSpan = $content.find('span#spanText_' + targetKey),
             targetLi = $todosUL.find('#listItem_' + targetKey),
@@ -162,7 +163,7 @@ var app = {};
         store();
     }
 
-    // sets completed property and assigns css class
+    // sets completed property - calling setPriority to assign priority value / class
     function setCompleted(targetKey, checked) {
         var todoPriority;
         if (todos[targetKey].completed === false && checked === true) {
@@ -267,7 +268,7 @@ var app = {};
                 createEditSpan(e.target.dataset.key, e);
             }
         });
-        // automatigically saves counter val and todos {} to localStorage on window close / refresh
+        // automagically saves counter val and todos {} to localStorage on window close / refresh
         window.addEventListener("unload", function (e) {
             //store();
         });
