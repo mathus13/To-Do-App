@@ -32,40 +32,40 @@ var app = (function () {
         switch (todoPriority) {
         case '-1':
             todos[targetKey].priority = todoPriority;
-            $(targetSpan).attr("class","span_todo-text-completed");
-            $(targetLi).attr("class","list-item_default");
+            targetSpan.attr("class","span_todo-text-completed");
+            targetLi.attr("class","list-item_default");
             if (reorder === true) {
                 reorderElements(false);
             }
             break;
         case '0':
             todos[targetKey].priority = todoPriority;
-            $(targetSpan).attr("class","span_todo-text-default");
-            $(targetLi).attr("class","list-item_default");
+            targetSpan.attr("class","span_todo-text-default");
+            targetLi.attr("class","list-item_default");
             if (reorder === true) {
                 reorderElements(false);
             }
             break;
         case '1':
             todos[targetKey].priority = todoPriority;
-            $(targetSpan).attr("class","span_todo-text-p1");
-            $(targetLi).attr("class","list-item_todo-p1");
+            targetSpan.attr("class","span_todo-text-p1");
+            targetLi.attr("class","list-item_todo-p1");
             if (reorder === true) {
                 reorderElements(false);
             }
             break;
         case '2':
             todos[targetKey].priority = todoPriority;
-            $(targetSpan).attr("class","span_todo-text-p2");
-            $(targetLi).attr("class","list-item_todo-p2");
+            targetSpan.attr("class","span_todo-text-p2");
+            targetLi.attr("class","list-item_todo-p2");
             if (reorder === true) {
                 reorderElements(false);
             }
             break;
         case '3':
             todos[targetKey].priority = todoPriority;
-            $(targetSpan).attr("class","span_todo-text-p3");
-            $(targetLi).attr("class","list-item_todo-p3");
+            targetSpan.attr("class","span_todo-text-p3");
+            targetLi.attr("class","list-item_todo-p3");
             if (reorder === true) {
                 reorderElements(false);
             }
@@ -74,23 +74,26 @@ var app = (function () {
             alert("oops you bwoke it");
         }
         if (todos[targetKey].completed === true) {
-            $(targetSelect).prop("disabled",true);
+            targetSelect.prop("disabled",true);
         } else {
-            $(targetSelect).prop("disabled",false);
+            targetSelect.prop("disabled",false);
         }
     }
     // creates the DOM elements and assignes properties
     function createElements(todo_key, reorder) {
         // create elements
         var todoPriority, listItem, targetSelect;
-        $(todosUL).append('<li id="listItem_' + todo_key + '" data-key="' + todo_key + '"> </li>');
-        listItem = $("li#listItem_" + todo_key);
-        $(listItem).append('<button class="button_delete" id="delButton_' + todo_key + '" data-key="' + todo_key + '"></button>');
-        $(listItem).append('<input type="checkbox" class="checkbox" id="checkbox_' + todo_key + '" data-key="' + todo_key + '"> </input>');
-        $(listItem).append('<select class="select" id="select_' + todo_key + '" data-key="' + todo_key + '"></select>');
+        todosUL.append('<li id="listItem_' + todo_key + '" data-key="' + todo_key + '"> </li>');
+        listItem = todosUL.find("li#listItem_" + todo_key);
+        listItem.append('<button class="button_delete" id="delButton_' + todo_key + '" data-key="' + todo_key + '"></button>');
+        listItem.append('<input type="checkbox" class="checkbox" id="checkbox_' + todo_key + '" data-key="' + todo_key + '"> </input>');
+        listItem.append('<select class="select" id="select_' + todo_key + '" data-key="' + todo_key + '"></select>');
         targetSelect = $("select#select_" + todo_key);
-        $(targetSelect).append('<option value="0">0</option>').append('<option>1</option>').append('<option>2</option>').append('<option>3</option>');
-        $(listItem).append('<span id="spanText_' + todo_key + '" data-key="' + todo_key + '">' + todos[todo_key].todoText + '</span>');
+        targetSelect.append('<option value="0">0</option>')
+        targetSelect.append('<option>1</option>')
+        targetSelect.append('<option>2</option>')
+        targetSelect.append('<option>3</option>');
+        listItem.append('<span id="spanText_' + todo_key + '" data-key="' + todo_key + '">' + todos[todo_key].todoText + '</span>');
         // checks checkbox if item is completed
         if (todos[todo_key].completed === true) {
             document.getElementById('checkbox_' + todo_key).checked = true;
@@ -120,11 +123,9 @@ var app = (function () {
     }
     // removes DOM elements - pass reorder as true when reordering
     function removeElements(targetKey, reorder) {
-        var element = document.getElementById('listItem_' + targetKey);
-        while (element.firstChild) {
-            element.removeChild(element.firstChild);
-            element.remove();
-        }
+        var parentElement = $("li#listItem_" + targetKey);
+        parentElement.empty();
+        parentElement.remove();
         if (reorder === false) {
             removeObject(targetKey);
         }
