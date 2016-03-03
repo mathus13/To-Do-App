@@ -182,27 +182,26 @@ var app = {};
 
     // creates input field to edit to-do text
     function createEditInput(targetKey) {
-        document.getElementById('spanText_' + targetKey).remove();
-        var inputEdit =  document.createElement("input");
-        inputEdit.type = "text";
-        inputEdit.Id = 'inputEdit_' + targetKey;
-        inputEdit.className = "inputEdit";
-        inputEdit.dataset.key = targetKey;
-        inputEdit.value = todos[targetKey].todoText;
-        document.getElementById('listItem_' + targetKey).appendChild(inputEdit);
-        inputEdit.focus();
+        var html, editText;
+        editText = todos[targetKey].todoText;
+        $todosUL.find('span#spanText_' + targetKey).remove();
+        html = '<input type="text" data-key="{{targetKey}}" class="inputEdit" id="inputEdit_{{targetKey}}">{{editText}}</input>';
+        html = html.replace(/{{targetKey}}/g, targetKey);
+        html = html.replace(/{{editText}}/g, editText);
+        $todosUL.find('li#listItem_' + targetKey).append(html);
+        $todosUL.find('input#input_' + targetKey).focus();
     }
-
+    
     // removes input field and saves text post edits to object, creates new text span
     function createEditSpan(targetKey, e) {
-        todos[targetKey].todoText = e.target.value;
-        console.log(e.target.value);
+        var html, editText;
+        editText = e.target.value;
+        todos[targetKey].todoText = editText;
         e.target.remove();
-        var spanText = document.createElement("span");
-        spanText.dataset.key = targetKey;
-        spanText.id = 'spanText_' + targetKey;
-        spanText.textContent = todos[targetKey].todoText;
-        document.getElementById('listItem_' + targetKey).appendChild(spanText);
+        html = '<span type="text" data-key="{{targetKey}}" class="spanText" id="spanText_{{targetKey}}">{{editText}}</span>';
+        html = html.replace(/{{targetKey}}/g, targetKey);
+        html = html.replace(/{{editText}}/g, editText);
+        $todosUL.find('li#listItem_' + targetKey).append();
         setPriority(targetKey, todos[targetKey].priority, false);
     }
 
