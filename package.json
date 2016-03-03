@@ -1,0 +1,30 @@
+{
+  "name": "To-Do-App",
+  "version": "0.0.0",
+  "description": "ITQ is a simple to do app in the works assigned to me as a challange to learn JS / HTML / CSS",
+  "main": "todo.js",
+  "dependencies": {
+    "bootstrap-sass": "^3.3.6",
+    "bower": "^1.7.7",
+    "gulp-bower": "^0.0.13",
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-notify": "^2.2.0",
+    "gulp-ruby-sass": "^2.0.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mathus13/To-Do-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mathus13/To-Do-App/issues"
+  }
+}

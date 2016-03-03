@@ -1,0 +1,23 @@
+{
+  "name": "To-Do-App",
+  "homepage": "https://github.com/mathus13/To-Do-App",
+  "authors": [
+    "sbarratt <mathus13@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "^3.3.6",
+    "font-awesome": "fontawesome#^4.5.0"
+  }
+}
