@@ -1,36 +1,50 @@
 'use strict';
-var todos = {
-    data: [],
-    hasLocalStorage: function () {
+var todos = (function () {
+    var data = [];
+
+    function hasLocalStorage() {
         if (undefined === localStorage) {
             return false;
         }
         return true;
-    },
-    store: function () {
-        if (!this.hasLocalStorage()) {
+    }
+
+    function store() {
+        if (!hasLocalStorage()) {
             return;
         }
-        localStorage.setItem('todos', JSON.stringify(this.data));
-    },
-    retrieve: function () {
-        if (!this.hasLocalStorage()) {
+        localStorage.setItem('todos', JSON.stringify(data));
+    }
+
+    function retrieve() {
+        if (!hasLocalStorage()) {
             return;
         }
         var todos = localStorage.getItem('todos');
-        console.log(todos);
         if (undefined === todos || null === todos) {
-            this.data = [];
+            data = [];
             return;
         }
-        this.data = JSON.parse(todos);
-    },
-    push: function (todo) {
-        this.data.push(todo);
-        this.store();
+        data = JSON.parse(todos);
+        console.log(data);
     }
-};
-todos.retrieve();
+
+    function push(todo) {
+        data.push(todo);
+    }
+
+    function removeTodo(index) {
+        data.splice(index, 1);
+    }
+
+    retrieve();
+    return {
+        store: store,
+        push: push,
+        remove: removeTodo,
+        data: data
+    };
+}());
 
 var view = new Vue({
     el: '.content',
@@ -56,6 +70,17 @@ var view = new Vue({
             },
         ]
     },
+    ready: function () {
+        this.initFocus();
+    },
+    watch: {
+        todos: {
+            handler: function () {
+                todos.store();
+            },
+            deep: true
+        }
+    },
     methods: {
         addTodo: function () {
             var text = this.newTodo.trim();
@@ -69,11 +94,10 @@ var view = new Vue({
             }
         },
         removeTodo: function (index) {
-            this.todos.splice(index, 1);
+            todos.remove(index);
+        },
+        initFocus: function () {
+            this.$els.newToDo.focus();
         }
     }
-});
-
-window.addEventListener("unload", function (e) {
-    todos.store();
 });

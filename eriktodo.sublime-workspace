@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"ret",
+				"retrieve"
+			],
+			[
+				"list-g",
+				"list-group-item	BootstrapClass"
+			],
+			[
+				"pri",
+				"priotities"
+			],
+			[
 				"limi",
 				"limitToCurrent"
 			],
@@ -502,18 +514,6 @@
 			[
 				"sub",
 				"subject"
-			],
-			[
-				"preg",
-				"preg_replace(\"/\\r"
-			],
-			[
-				"archive",
-				"archiveName"
-			],
-			[
-				"over",
-				"overlay"
 			]
 		]
 	},
@@ -523,18 +523,15 @@
 			"file": "todo.html",
 			"settings":
 			{
-				"buffer_size": 2568,
+				"buffer_size": 2511,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "'use strict';\nvar todos = {\n    data: [],\n    hasLocalStorage: function () {\n        if (undefined === localStorage) {\n            return false;\n        }\n        return true;\n    },\n    store: function () {\n        if (!this.hasLocalStorage()) {\n            return;\n        }\n        localStorage.setItem('todos', JSON.stringify(this.data));\n    },\n    retrieve: function () {\n        if (!this.hasLocalStorage()) {\n            return;\n        }\n        var todos = localStorage.getItem('todos');\n        console.log(todos);\n        if (undefined === todos || null === todos) {\n            this.data = [];\n            return;\n        }\n        this.data = JSON.parse(todos);\n    },\n    push: function (todo) {\n        this.data.push(todo);\n        this.store();\n    },\n    removeTodo: function (index) {\n        this.data.splice(index, 1);\n        this.store();\n    }\n};\ntodos.retrieve();\n\nvar view = new Vue({\n    el: '.content',\n    data: {\n        newTodo: '',\n        todos: todos.data,\n        priotities: [\n            {\n                value: 0,\n                label: 'New'\n            },\n            {\n                value: 2,\n                label: 'Medium'\n            },\n            {\n                value: 3,\n                label: 'High'\n            },\n            {\n                value: 4,\n                label: 'Urgent'\n            },\n        ]\n    },\n    methods: {\n        addTodo: function () {\n            var text = this.newTodo.trim();\n            if (text) {\n                todos.push({\n                    text: text,\n                    priority: 0,\n                    done: false\n                });\n                this.newTodo = '';\n            }\n        },\n        removeTodo: function (index) {\n            todos.data.splice(index, 1);\n            todos.store();\n        }\n    }\n});\n\nwindow.addEventListener(\"unload\", function (e) {\n    todos.store();\n});\n",
 			"file": "todo.js",
-			"file_size": 1767,
-			"file_write_time": 131019406685405697,
 			"settings":
 			{
-				"buffer_size": 1894,
+				"buffer_size": 2118,
 				"line_ending": "Unix"
 			}
 		}
@@ -1098,8 +1095,8 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 280.0,
-		"last_filter": "chan",
+		"height": 400.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -1922,6 +1919,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"this.store",
+			"this.data",
+			"this.hasLocalStorage",
 			"localstorage",
 			"LocalStorage",
 			"localstorage",
@@ -2046,10 +2046,7 @@
 			"$_POST",
 			"notified_users",
 			"validate",
-			"recipients[]",
-			"applek",
-			"document",
-			"canSelectMultiple"
+			"recipients[]"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -2204,19 +2201,28 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2568,
+						"buffer_size": 2511,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1263,
-								1263
+								353,
+								353
 							]
 						],
 						"settings":
 						{
+							"WordCount":
+							{
+								"changes": 257,
+								"count": 8,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
 							"WordCountShouldRun": true,
 							"WordCountSyntax": "html",
 							"color_scheme": "Packages/User/Color Highlighter/themes/spectral (SL).tmTheme",
@@ -2240,19 +2246,27 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1894,
+						"buffer_size": 2118,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								840,
-								840
+								1736,
+								1736
 							]
 						],
 						"settings":
 						{
+							"WordCount":
+							{
+								"changes": -1,
+								"modified": true,
+								"selection": true,
+								"status": -1,
+								"syntax": "javascript"
+							},
 							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"color_scheme": "Packages/User/Color Highlighter/themes/spectral (SL).tmTheme",
@@ -2264,7 +2278,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 273.0,
+						"translation.y": 546.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
